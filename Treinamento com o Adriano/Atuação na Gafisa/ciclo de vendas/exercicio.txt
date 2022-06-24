@@ -1,0 +1,54 @@
+	RECURSOS	
+1	N/ui/serverWidget	
+2	Método POST	
+3	Relatórios -> Nova Busca -> Transação, record.transform	
+4	Método POST, record.transform	
+5	Relatórios -> Nova Busca -> Transação, N/search, record.transform	
+
+Ciclo de compras (Rafael)
+
+1. Crie um suitelet para cadastro de funcionários;
+2. Crie um resltet para cadastro de item de estoque;
+2.1 Com o item criado, criar o fornecedor;
+2.2. Com o fornecedor criado, gerar o pedido de compras.
+3. Crie um mapreduce que crie o recebimento do item e a fatura do fornecedor.
+3.1 Rodar uma busca salva que liste todos os pedidos de compras no nome do funcionário e que não estejam faturado integralmente, fechados.
+
+Transações de exemplos:
+Funcionário: https://5843489-sb1.app.netsuite.com/app/common/entity/employee.nl?id=24815
+Item: https://5843489-sb1.app.netsuite.com/app/common/item/item.nl?id=19620&whence=&cmid=1653676553575_342
+Fornecedor: https://5843489-sb1.app.netsuite.com/app/common/entity/vendor.nl?id=25015&whence=&cmid=1653676773641_355
+Pedido de compras: https://5843489-sb1.app.netsuite.com/app/accounting/transactions/purchord.nl?id=344692&whence=&cmid=1653677759010_385
+Recebimento de item: https://5843489-sb1.app.netsuite.com/app/accounting/transactions/itemrcpt.nl?id=344793&whence=&cmid=1653677871568_388
+Fatura do fornecedor: https://5843489-sb1.app.netsuite.com/app/accounting/transactions/vendbill.nl?whence=&id=344794
+
+
+Ciclo de vendas (Gabriel)
+
+Com o ciclo de compras fechado:
+
+4. Crie um restlet para cadastro de clientes;
+4.1. Com o cliente criado, gerar o pedido de vendas;
+4.2. Com o pedido criado, gerar o depósito do cliente;
+5. Criar um schedule para criar o atendimento do item e a fatura.
+5.1 Rodar uma busca salva que liste todos os depósitos de clientes referente a pedidos que não estejam faturados, cancelados, fechados.
+
+Transações de exemplo:
+Cliente: https://5843489-sb1.app.netsuite.com/app/common/entity/custjob.nl?id=23813
+Pedido de vendas: https://5843489-sb1.app.netsuite.com/app/accounting/transactions/salesord.nl?id=344795&whence=&cmid=1653678261523_406
+Depósito do cliente: https://5843489-sb1.app.netsuite.com/app/accounting/transactions/custdep.nl?whence=&id=344796
+Atendimento do item: https://5843489-sb1.app.netsuite.com/app/accounting/transactions/itemship.nl?id=344797&whence=&cmid=1653678424944_416
+Fatura: https://5843489-sb1.app.netsuite.com/app/accounting/transactions/custinvc.nl?id=344798&whence=&cmid=1653678478447_420
+
+Fluxo padrão de compras
+Requisição de compra 20 celulares samsung ok
+Pedido de Compras 
+Aprovação do pedido de compras
+Pedido de Compras -> Fatura do Fornecedor (15/06)
+Pedido de Compras -> Recebimento do item (chegada no estoque)
+
+Fluxo padrão de vendas
+Pedido de Vendas 1 celular samsung
+Pedido de Vendas -> Depósito do cliente
+Pedido de Vendas -> Atendimento do item
+Pedido de Vendas -> Fatura (Nota Fiscal)

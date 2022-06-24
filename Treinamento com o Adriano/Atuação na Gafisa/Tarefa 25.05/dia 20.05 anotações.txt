@@ -1,0 +1,15 @@
+nome, email, telefone, telefone de serviço, 
+subsidiária, endereço (sublista)
+
+"billaddr1": 'Rua Almirante Barroso',
+		"billaddr2": 'Prédio',
+		"billaddr3": 'Rudge Ramos',
+		"billcountry": 'Brasil'
+		
+sublista está dentro lineitem 
+
+
+fazer um relatório de despesa para todos os 
+funcionários que foram criados por um restlet
+
+olhar o módulo task. 

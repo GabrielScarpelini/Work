@@ -1,0 +1,1 @@
+código rsc_cs_ativarAmount foi desenvolvido pelo Adriano

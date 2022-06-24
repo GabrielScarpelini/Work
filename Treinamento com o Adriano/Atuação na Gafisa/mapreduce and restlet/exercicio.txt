@@ -1,0 +1,43 @@
+QUESTÃO	RECURSOS	STATUS
+1	Plugin Load NS Record	
+2	N/runtime, Relatórios -> Nova Busca -> Transação	
+3	Guia parâmetro (dentro do script)	
+4	Método GET, N/search, N/runtime, N/task	
+5	Relatórios -> Nova Busca -> Transação, N/email	
+6	https://5843489-sb1.app.netsuite.com/app/accounting/transactions/exprept.nl?id=339385&whence=
+
+7	Plugin Load NS Record	
+8	N/runtime, Relatórios -> Nova Busca -> Transação	
+9	Guia parâmetro (dentro do script)	
+10	Método GET, N/search, N/runtime, N/task	
+11	Relatórios -> Nova Busca -> Transação, N/email	
+12	 https://5843489-sb1.app.netsuite.com/app/accounting/transactions/salesord.nl?id=339386&whence=&cmid=1653074625566_1681
+
+
+Utilizando o Restlet de funcionários e clientes:
+
+1. Crie um funcionário pelo restlet;
+2. Crie um mapreduce para cadastrar relatório de despesa para funcionários:
+•	Criados pelo restlet e;
+•	Criado pelo seu usuário.
+3. No mapreduce crie o parâmetro (Nome: “Funcionário RL”, id:  “_rsc_funcionario”);
+4. Através do restlet:
+•	Busque o relatório de despesa criado pelo mapreduce;
+•	Envie uma task para realizar uma cópia do relatório com valor duplicado da despesa.
+5. Crie um evento de usuário para enviar um e-mail para “gabriel.pavia@runsmart.cloud ” para cada relatório de despesa gerado:
+•	Pelo mapreduce e;
+•	Pelo seu usuário.
+6.  Relatório de despesa (exemplo);
+
+7. Crie um cliente pelo restlet;
+8. Crie um schedule para cadastrar pedido de vendas para clientes:
+•	Criados pelo restlet e;
+•	Criado pelo seu usuário.
+9. No schedule crie o parâmetro (Nome: “Cliente RL”, id: “_rsc_cliente”);
+10. Através do restlet:
+•	Busque o pedido de vendas criado pelo schedule;
+•	Envie uma task para realizar uma cópia do pedido com valor duplicado do item;
+11. Crie um evento de usuário para enviar um e-mail para “rafael.santos@runsmart.cloud ” para cada pedido de venda gerado:
+•	Pelo schedule e;
+•	Pelo seu usuário.
+12.  Pedido de vendas (exemplo).

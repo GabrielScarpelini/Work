@@ -1,0 +1,17 @@
+hoje iremos integrar um API 
+
+var parameter = ctx.request.body  > suitlet
+var body ctx.body > restlet 
+
+
+o json pode vim como uma string, aí você tem que usar um JSON.parse(ctx.request.parameters);
+
+
+Map reduce: usa ele pra tratar uma lista, 
+
+
+todos os resgitros de cocheira que o chack box estiver falso tem que ter um cavalo 
+
+
+
+customrecord_rsc_cnab_bankaccount

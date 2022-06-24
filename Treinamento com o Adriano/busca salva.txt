@@ -1,0 +1,3 @@
+trazer os clientes pelo get, trazer os clientes que foram cadastrados por integração
+
+para buscar como o registro foi criado (integração ow se foi alguém, na busca, procurar Observações do sistema: contexto > e script(restlet)

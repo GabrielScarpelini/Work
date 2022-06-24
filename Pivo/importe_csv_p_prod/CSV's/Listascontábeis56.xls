@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+<Author>NetSuite</Author>
+<LastAuthor>NetSuite</LastAuthor>
+<Company>NetSuite</Company>
+</DocumentProperties>
+<Styles>
+<Style ss:ID="company">
+<Alignment ss:Horizontal="Center"/>
+<Font ss:Bold="1"/>
+</Style> <Style ss:ID="error">
+<Alignment ss:Horizontal="Center"/>
+<Interior ss:Color="#d04040" ss:Pattern="Solid"/>
+<Font ss:Bold="1"/>
+</Style> <Style ss:ID="header">
+<Alignment ss:Horizontal="Center"/>
+<Font ss:Size="7" ss:Bold="1"/>
+<Interior ss:Color="#d0d0d0" ss:Pattern="Solid"/>
+</Style> <Style ss:ID="Default" ss:Name="Normal">
+<Alignment ss:Vertical="Bottom"/>
+<Borders/>
+<Font ss:FontName="Arial" ss:Size="8"/>
+<Interior/>
+<NumberFormat/>
+<Protection/>
+</Style>
+<Style ss:ID="s__TIMEOFDAY"><NumberFormat ss:Format="Medium Time"/></Style>
+<Style ss:ID="s__DATETIME"><NumberFormat ss:Format="General Date"/></Style>
+<Style ss:ID="s__DATETIMETZ"><NumberFormat ss:Format="General Date"/></Style>
+<Style ss:ID="s__DATE"><NumberFormat ss:Format="Short Date"/>
+</Style><Style ss:ID="s__text"></Style><Style ss:ID="s__currency"><NumberFormat ss:Format="Currency"/></Style>
+<Style ss:ID="s__percent"><NumberFormat ss:Format="Percent"/></Style>
+<Style ss:ID="s1_b_text"><Alignment ss:Indent="1"/><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/></Style>
+<Style ss:ID="s_b_text"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/></Style>
+<Style ss:ID="s2__text"><Alignment ss:Indent="2"/></Style>
+<Style ss:ID="s_b_currency"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/><NumberFormat ss:Format="Currency"/></Style>
+<Style ss:ID="s_currency_nosymbol"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" /><NumberFormat ss:Format="#,##0.00_);[Red]\(#,##0.00\)"/></Style>
+<Style ss:ID="s1__text"><Alignment ss:Indent="1"/></Style>
+<Style ss:ID="s_b_currency_X"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/><Interior ss:Color="#f0e0e0" ss:Pattern="Solid"/><NumberFormat ss:Format="Currency"/></Style>
+<Style ss:ID="s__currency_en_CA"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;Can$&quot;#,##0.00_);(&quot;Can$&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_fr_FR_EURO"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;€&quot;#,##0.00_);(&quot;€&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_pt_BR"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;R$&quot;#,##0.00_);(&quot;R$&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_en_US"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;$&quot;#,##0.00_);(&quot;$&quot;#,##0.00)"/></Style>
+</Styles>
+<Worksheet ss:Name="Listascontbeis">
+<Table><Row>
+<Cell ss:StyleID="header"><Data ss:Type="String">Descrição</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ABRAÇADEIRA CM</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ABRAÇADEIRAS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ABRAÇADEIRAS PLASTICAS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACABAMENTO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACABAMENTO DE LAJE/PISO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACABAMENTO DE PISO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACABAMENTO DE PISO DE CONCRETO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACABAMENTO EM ESTRUTURA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSIBILIDADE</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSORIOS DE ALUMINIO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS DE FIXAÇÃO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS DE TRAVAMENTOS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Acessórios Grua</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS METAIS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Acessórios metais e louças</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS PARA DRYWALL</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS PARA ESQUADRIAS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS PARA ESQUADRIAS DE A</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS PARA GRUA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACESSÓRIOS PARA GRUA E FIXAÇÃO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACM</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACM - ALUMINIO COMPOSTO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AÇO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AÇO - SERRALHEIRIA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AÇO CORTE E DOBRA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AÇO E TELA COM TRELIÇA PARA PIS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AÇO EM BARRA CHATA E TUBO DE AÇ</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AÇO INOX</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACOMPANHAMENTO DE SONDAGEM</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACOMPANHAMENTO FISICO E FINANCE</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ACOMPANHAMENTO REMOTO DE OBRA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADEQUAÇÃO DE VIGA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADESIVAÇÃO DE TAPUME</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADESIVO - COMUNICAÇÃO VISUAL</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADESIVO TAPUME</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADESIVOS PARA ELEVADOR</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADITIVO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADITIVO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADITIVO GERADOR DE ESPUMA ECOFO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADITIVO PARA CONCRETO E ARGAMAS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADOBE</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADSIVO EPOXI</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADVOGADO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ADVOGADOS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AGARRAS PAREDE DE ESCALADA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AGÊNCIA DE MARKETING</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AGÊNCIA DE VIAGENS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AGREGADOS À GRANEL E ENSACADOS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AGREGADOS (PEDRA - RACHÃO - PED</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ÁGUA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ÁGUA MINERAL</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ÁGUA MINERAL DE GALÃO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AGUA MINERAL GL 20LTS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AGUA MINERAL 20 LITROS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALÇAPÃO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Alcool gel</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALIMENTAÇÃO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALUBAND</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALUGUEL</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Aluguel de máq e equip</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Aluguel de máq e equip s/ opera</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALUGUEL DE PALCOS E ESTRUTURA E</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALUMINIO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALUMINIO FACHADA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ALVENARIA / M.O CIVIL</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AMORTECEDORES</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANALISE DE PROJETO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANÁLISE TÉCNICA (LABORATÓRIO)</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANCORAGEM</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANDAIME BALANCIM</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANDAIME FERRAMENTAS PRODUTOS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANDAIMES</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANDAIMES E VELOX</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANÉIS E TUBOS DE CONCRETO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANEL DE CONCRETO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ANTENA COLETIVA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">APARELHO DE AR CONDICIONADO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">APLICAÇÃO DE REJUNTE E SILICONE</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">APOIO DE AÇO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">APROVAÇÃO ANVISA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AQUECEDOR SOLAR</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AQUECEDORES</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AQUECIMENTO DE PISCINA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AQUECIMENTO SOLAR</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AR - CONDICIONADO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Ar Codicionado, Exaustão, Press</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AR CONDICIONADO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Ar Condicionado</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AR CONDICIONADO E PRESSURIZAÇÃO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AR CONDICIONADO, EXAUSTÃO E INC</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AR CONDICIONADO, PRESSURIZAÇÃO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ARAME RECOZIDO LISO</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ÁREA DE VJVÊNCIA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA / BRITA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA BRITA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA E BRITA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA E PEDRA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA LAVADA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA LAVADA / BRITA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">AREIA MÉDIA E BICA CORRIDA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ARENILTON</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ARGA / ASSEN / COLA / REVES / C</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ARGAMASSA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ARGAMASSA / ASSENTAMENTO / COLA</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">ARGAMASSA / ASSENTAMENTO / REVE</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Consultant</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Contractor</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">FORRO / DRYWALL</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">PEDRAS DECORATIVAS</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Supplies</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">Tax agency</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="String">2 ANDAR DOS MÓDULOS FIXO E MÓVE</Data></Cell>
+</Row>
+</Table>
+</Worksheet>
+</Workbook>

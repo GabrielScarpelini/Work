@@ -1,0 +1,11 @@
+um caso é um chamado, uma única pessoa atua sobre o chamado
+
+campo do funcionário está válido
+
+1ª instância: aplicar as horas totais de um caso para o 
+cliente ter um relatório de horas.  
+
+2ªinstância: linkar o funcionário que apontou as horas
+e mostrar as horas de cada funcionário individualmente 
+e colocar um campo em registro de casos para mostrar ca-
+d funcionario que apontou, as horas do mesmo 

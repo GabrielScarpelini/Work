@@ -1,0 +1,14 @@
+tarefa:
+
+
+recebimento de item, botão cobrança, abre fatura de
+fornecedor 
+
+dentro disso
+ 
+quando carregar o formulário da fatura 
+
+campo numero de recebimento físico tem que ser setado
+com o número do id do recebimento de item
+
+pegar o id do URL  
