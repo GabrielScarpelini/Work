@@ -3,7 +3,7 @@
 * @NScriptType ClientScript
 * @Authors Gabriel Scarpelini & Rafael Oliveira
 */
-define(['N/log','N/email', 'N/currentRecord', 'N/https', 'N/search', 'N/ui/dialog'], function(log, email, currentRecord, https, search, dialog) {
+define(['N/log','N/email', 'N/currentRecord', 'N/https', 'N/search'], function(log, email, currentRecord, https, search) {
 
     function pageInit(ctx) {
         
@@ -16,10 +16,55 @@ define(['N/log','N/email', 'N/currentRecord', 'N/https', 'N/search', 'N/ui/dialo
             var recordType = page.type
             console.log(recordType)
 
-            var func = getMail(recordType, recordId)
-            log.audit('retorno final do script', func)
+            if(recordType == 'customer' || 'prospect'){
+                var funk = getDataCustProp(recordType, recordId)
+                log.audit('retorno final do script', funk)
+            }else{
+                var func = getDataLead(recordType, recordId)
+                log.audit('retorno final do script', func)
+            }
             
-            function getMail(type, registroId){
+            function getDataCustProp(type, registroId){
+                var busca = []
+                search.create({
+                    type: type,
+                    filters: [
+                            ['internalid', 'IS', registroId]
+                            ],
+                    columns:[
+                            search.createColumn({name: "email", label: "E-mail"}),
+                            search.createColumn({name: "companyname", label: "Razão Social"})
+                            ]
+                }).run().each(function(result){
+                    busca.push({
+                        email: result.getValue('email'),
+                        razaoSocial: result.getValue('companyname')
+                    })
+                    return true
+                })
+                const senderId = 239880;
+                const recipientEmail = busca[0].email;
+                const mailSubject = 'Atualização de cadastro de Cliente (' + busca[0].razaoSocial + ')'
+
+                https.post({
+                    body: {
+                        senderId: senderId,
+                        recipientEmail: recipientEmail,
+                        mailSubject: mailSubject
+                    },
+                        url: 'https://4481651-sb2.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=1885&deploy=1&compid=4481651_SB2&h=4120755da0c68734c123',
+                })
+                alert('E-mail enviado!')
+
+                return{
+                    idRemetente: senderId,
+                    emailDestinatario: recipientEmail,
+                    titulo: mailSubject
+                    
+                }
+            }
+            
+            function getDataLead(type, registroId){
                 var busca = []
                 search.create({
                     type: type,
@@ -49,10 +94,7 @@ define(['N/log','N/email', 'N/currentRecord', 'N/https', 'N/search', 'N/ui/dialo
                     },
                         url: 'https://4481651-sb2.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=1885&deploy=1&compid=4481651_SB2&h=4120755da0c68734c123',
                 })
-                dialog.alert({
-                    title: "Sucesso!",
-                    message: "E-mail encaminhado para o destino: " + recipientEmail +'!'
-                })
+                alert('E-mail enviado!')
 
                 return{
                     idRemetente: senderId,

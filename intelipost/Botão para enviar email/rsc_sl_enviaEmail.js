@@ -4,7 +4,7 @@
  *@Authors Gabriel Scarpelini & Rafael Oliveira
  */
 
-define(['N/email', 'N/render'], function(email, render) {
+define(['N/email', 'N/render', 'N/log'], function(email, render, log) {
 
     function onRequest(ctx) {
         try{    
@@ -15,6 +15,10 @@ define(['N/email', 'N/render'], function(email, render) {
             var template = render.mergeEmail({
                 templateId: 88
             })
+            log.audit('valor do email', recipientEmail)
+            log.audit('subject', mailSubject)
+            log.audit('quem enviou', senderId)
+            log.audit('template do email', template)
             
             email.send({
                 author: senderId,
