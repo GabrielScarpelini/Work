@@ -1,0 +1,6 @@
+Foi solicitado fazer um controle no fluxo de fatura:
+
+- Se a parcela já foi paga, deverá ser feito uma busca no registro parcela Quitação
+- Se um campo específico desse registro estiver preenchido, ele deverá ser retornado na busca
+- deverá ser setado o valor: 14 (Label: "ok, pago") no campo "STATUS COBRANÇA"
+- deverá ser setado o valor txt: "Título quitado"  no campo "DESCRIÇÃO DA FATURA"
