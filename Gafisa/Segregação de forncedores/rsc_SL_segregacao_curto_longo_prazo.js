@@ -367,6 +367,13 @@ define(['N/ui/serverWidget', 'N/record', 'N/log', 'N/url', 'N/search', 'N/file']
                         line: i,
                         value: resultados[i].numeroParcelas
                     })
+                    
+                    sublist.setSublistValue({
+                        id: "custpage_id_fatura",
+                        line: i,
+                        value: resultados[i].idFatura
+                    })
+                    
                     if(resultados[i].fatura){
                         sublist.setSublistValue({
                             id: "custpage_num_fatura",
@@ -382,7 +389,7 @@ define(['N/ui/serverWidget', 'N/record', 'N/log', 'N/url', 'N/search', 'N/file']
         }else{
             var json = JSON.parse(parameters.custpage_json_holder)
             log.audit('valor do listaJSON', json)
-            log.audit('valor dos parametros', parameters)
+            
             
             // for(var i = 0; i<listaJSON.length; i++){
             //     listaJSON[i] = listaJSON[i].replace()
