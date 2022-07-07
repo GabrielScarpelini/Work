@@ -2,9 +2,65 @@
  *@NApiVersion 2.1
  *@NScriptType ClientScript
  */
-define(['N/record', 'N/log', 'N/currentRecord', 'N/url'], function(record, log, currentRecord, url) {
+define(['N/record', 'N/log', 'N/currentRecord', 'N/url', 'N/ui/message', 'N/search'], function(record, log, currentRecord, url, message, search) {
 
-    function pageInit(ctx) {}
+    function pageInit(ctx) {
+        var page = ctx.currentRecord
+        var searchOfsearch = search.create({
+            type: "savedsearch",
+            filters:
+            [
+               ["id","is","customsearch_gaf_src_curto_long"]
+            ],
+            columns:
+            [
+               search.createColumn({name: "internalid", label: "ID interno"})
+            ]
+        }).run().getRange(0,1)
+        page.setValue("custpage_id_busca", searchOfsearch[0].id)
+
+        // var processado = page.getValue("custpage_process")
+        // var processadoParc = page.getValue("custpage_processa_parc")
+        // var naoProcessado = page.getValue("custpage_nao_process")
+
+        // if(processado){
+        //     var process = message.create({
+        //         title: 'Sucesso',
+        //         message: 'Lançamentos Contábeis Criados com Sucesso',
+        //         type: message.Type.CONFIRMATION
+        //     });
+        //     process.show({
+        //         duration: 10000 
+        //     });
+        //     var link = "https://5843489-sb1.app.netsuite.com/app/accounting/transactions/transactionlist.nl?Transaction_TYPE=Journal"
+        //     window.location.replace(link)
+        // }else if(processadoParc){
+        //     let almostProcess = message.create({
+        //         title: 'Processados Parcialmente',
+        //         message: 'Alguns lançamentos não foram processados, favor verificar na lista de Lançamentos Contábeis',
+        //         type: message.Type.INFORMATION
+        //     });
+        //     almostProcess.show({
+        //         duration: 10000
+        //     });
+        //     var link = "https://5843489-sb1.app.netsuite.com/app/accounting/transactions/transactionlist.nl?Transaction_TYPE=Journal"
+        //     window.location.replace(link)
+        // }else if(naoProcessado){
+        //     let noProcessed = message.create({
+        //         title: 'Falha ao processar',
+        //         message: 'Nenhum dos lançamentos foram processados tente novamente',
+        //         type: message.Type.WARNING,
+        //         duration: 20000
+        //     });
+        //     noProcessed.show({
+        //         duration: 10000
+        //     });
+        //     var link = "https://5843489-sb1.app.netsuite.com/app/accounting/transactions/transactionlist.nl?Transaction_TYPE=Journal"
+        //     window.location.replace(link)
+        // }else{
+        //     console.log('não encontrei nada')
+        // }
+    }
 
     function selecionar(){
         var page = currentRecord.get()
@@ -34,18 +90,19 @@ define(['N/record', 'N/log', 'N/currentRecord', 'N/url'], function(record, log, 
         for(var i = 0; i < count; i++){
             var check = page.getSublistValue({ sublistId: 'custpage_sublist', fieldId: 'custpage_pegar_parcela', line: i}) 
             var numeroParcelas = page.getSublistValue({ sublistId: 'custpage_sublist', fieldId: 'custpage_prestacoes', line: i})
+            var idFatura = page.getSublistValue({ sublistId: 'custpage_sublist', fieldId: 'custpage_id_fatura', line: i})
             
             for (var j = 0; j < json.length; j++){
-                    if(numeroParcelas == json[j].numeroParcelas){
+                    if(numeroParcelas == json[j].numeroParcelas && check == true && idFatura == json[j].idFatura){
                         json[j].checkbox = check
                         jsonAtualizado.push(json[j])
-
                     }
-            }
+                }
         }
         console.log(jsonAtualizado)
         page.setValue('custpage_json_holder', JSON.stringify(jsonAtualizado))
-        // return true
+        return true
+    
     }
 
     
