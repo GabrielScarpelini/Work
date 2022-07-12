@@ -19,13 +19,13 @@ define(["require", "exports", "N/currentRecord", "N/log", "N/search", "N/runtime
     log_1 = __importDefault(log_1);
     search_1 = __importDefault(search_1);
     runtime_1 = __importDefault(runtime_1);
-    var saveRecord = function (ctx) {
-        alert('O processo de cálculo de preço será iniciado ao salvar o registro e pode demorar alguns minutos.'
-            + ' Quando o processo terminar, se houver erros no cálculo, o campo "Erro no cálculo de preço" estará preenchido com o(s) erro(s).'
-            + ' No fim do processo, caso haja sucesso, o campo "Erro no cálculo de Preço" estará preenchido com "Cálculo de preço bem-sucedido"'); // o calculo de preço sera realizado por um afterSubmit
-        return true;
-    };
-    exports.saveRecord = saveRecord;
+    // var saveRecord = function (ctx) {
+    //     alert('O processo de cálculo de preço será iniciado ao salvar o registro e pode demorar alguns minutos.'
+    //         + ' Quando o processo terminar, se houver erros no cálculo, o campo "Erro no cálculo de preço" estará preenchido com o(s) erro(s).'
+    //         + ' No fim do processo, caso haja sucesso, o campo "Erro no cálculo de Preço" estará preenchido com "Cálculo de preço bem-sucedido"'); // o calculo de preço sera realizado por um afterSubmit
+    //     return true;
+    // };
+    //exports.saveRecord = saveRecord;
     var pageInit = function (ctx) {
         //var currRecord = ctx.currentRecord;
         //currRecord.selectLine({
@@ -186,7 +186,7 @@ define(["require", "exports", "N/currentRecord", "N/log", "N/search", "N/runtime
             sublistId: "item",
         });
         var _loop_1 = function () {
-            try {
+            // try {
                 record.selectLine({
                     line: line,
                     sublistId: "item"
@@ -583,9 +583,12 @@ define(["require", "exports", "N/currentRecord", "N/log", "N/search", "N/runtime
                 var beneficios = variaveis_beneficios_1.set["custcol_lrc_beneficios_so"];
                 var remuneracao = variaveis_remuneracao_1.set["custcol_lrc_remuneracao_so"];
                 var total_impostos = (0, rsc_functions_1.calculateImpostos)(Number(item), Number(regiao));
-                //Log.error("total_impostos", total_impostos);
+                log_1.default.error("total_impostos2", total_impostos);
                 var line_rate = (0, rsc_functions_1.calculateLineRate)(CCTObj, remuneracao, beneficios, total_impostos, total_taxas, Number(item));
                 ;
+                log_1.default.error("valor do line rate", line_rate);
+                console.log("valor do line rate", line_rate);
+                
                 sublistFieldsValue_1["custcol_lrc_impostos_so"] = total_impostos;
                 sublistFieldsValue_1["rate"] = line_rate;
                 total_rate += line_rate;
@@ -609,14 +612,14 @@ define(["require", "exports", "N/currentRecord", "N/log", "N/search", "N/runtime
                 record.commitLine({
                     sublistId: "item"
                 });
-            }
-            catch (e) {
-                errors.push({
-                    "name": e.name,
-                    "description": e.message,
-                    "line": line
-                });
-            }
+            //}
+            // catch (e) {
+            //     errors.push({
+            //         "name": e.name,
+            //         "description": e.message,
+            //         "line": line
+            //     });
+            // }
         };
         for (var line = 0; line < lineCount; line++) {
             _loop_1();

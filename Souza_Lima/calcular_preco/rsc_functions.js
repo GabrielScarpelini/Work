@@ -116,7 +116,7 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         var horas_saida, minutos_saida, horas_entrada, minutos_entrada;
         //log_1.default.error("horas_minutos_entrada", horario_de_entrada);
         horas_entrada = horario_de_entrada.horas;
-        //log_1.default.error("horas_entrada", horas_entrada);
+       // log_1.default.error("horas_entrada", horas_entrada);
         minutos_entrada = horario_de_entrada.minutos;
         //log_1.default.error("minutos_entrada", minutos_entrada);
         var horas_trabalhadas = Math.floor(horas_por_dia);
@@ -149,9 +149,9 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         var porcentagem_lider = parseFloat(String(CCTObj["custrecord_lrc_adicional_lider_cct"]));
         //log_1.default.error("porcentagem_lider", porcentagem_lider);
         var valor_lider = (porcentagem_lider / 100) * piso_salarial;
-        //log_1.default.error("valor_lider", valor_lider);
+       // log_1.default.error("valor_lider", valor_lider);
         var porcentagem_acumulo = parseFloat(String(CCTObj["custrecord_lrc_adicional_func_cct"]));
-        //log_1.default.error("porcentagem_acumulo", porcentagem_acumulo);
+       // log_1.default.error("porcentagem_acumulo", porcentagem_acumulo);
         var valor_acumulo = (porcentagem_acumulo / 100) * piso_salarial;
         //log_1.default.error("valor_acumulo", valor_acumulo);
         // salario
@@ -255,11 +255,11 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
             }
         });
         var valor_excecao_porcentagem_salario = salario * (porcentagem_salario / 100);
-        //log_1.default.error("valor_excecao_porcentagem_salario", valor_excecao_porcentagem_salario);
+        //////log_1.default.error("valor_excecao_porcentagem_salario", valor_excecao_porcentagem_salario);
         valor_excecao += valor_excecao_porcentagem_salario;
-        //log_1.default.error("valor_excecao", valor_excecao);
+        //////log_1.default.error("valor_excecao", valor_excecao);
         salario += valor_excecao_porcentagem_salario;
-        //log_1.default.error("salario depois da excecao na porcentagem do salario", salario);
+        //////log_1.default.error("salario depois da excecao na porcentagem do salario", salario);
         return {
             "set": {
                 "custcol_lrc_piso_salarial_so": piso_salarial,
@@ -279,11 +279,11 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         // Horas extras de CCTs que exigem um domingo de folga por mês
         var horas_extra_segsab = 0, horas_extra_domfer = 0;
         var base_horas_totais = Number(CCTObj["custrecord_lrc_base_horas_trabalhadas"]); //220
-        //log_1.default.error("base_horas_totais", base_horas_totais);
+        ////log_1.default.error("base_horas_totais", base_horas_totais);
         var horas_extra_percentual_segsab = parseFloat(String(CCTObj["custrecord_lrc_hora_extra_segsab_cct"])); //0.5
-        //log_1.default.error("horas_extras_percentual_segsab", horas_extra_percentual_segsab);
+       //// log_1.default.error("horas_extras_percentual_segsab", horas_extra_percentual_segsab);
         var horas_extra_percentual_domfer = parseFloat(String(CCTObj["custrecord_lrc_hextra_dom_fer_cct"])); //1
-        //log_1.default.error("horas_extra_percentual_domfer", horas_extra_percentual_domfer);
+       //// log_1.default.error("horas_extra_percentual_domfer", horas_extra_percentual_domfer);
         var NUMBER_OF_WEEKS_IN_MONTH = 4.3571; // (30.5/7 aproximadamente) -> numero de dias da semanas em um mes de 30.5 dias 
         // Primeiro caso - Referente as horas extras que extrapolam o Maximo de horas semanais indicado pela tabela de CCT 
         // Considerar a porcentagem de cada uma das pessoas 
@@ -404,7 +404,7 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         //log_1.default.error("inicio_periodo", inicio_periodo_noturno);
         //log_1.default.error("fim_periodo", fim_periodo_noturno);
         //log_1.default.error("inicio_periodo_noturno", inicio_periodo_noturno_adnot);
-        //log_1.default.error("fim_periodo_noturno", fim_periodo_noturno_adnot);
+       // log_1.default.error("fim_periodo_noturno", fim_periodo_noturno_adnot);
         //log_1.default.error("horario_de_entrada", horario_de_entrada);
         //log_1.default.error("horario_de_saida", horario_de_saida);
         //log_1.default.error('horas por dia', horas_por_dia_trabalhadas);
@@ -423,42 +423,42 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         //log_1.default.error("horas noturnas tipo", typeof horas_noturnas);
         switch (addNoturnoDefinidoPor) {
             case LRC_TIPO_ADICIONAL_NOTURNO["proporcional_hora"]:
-                //log_1.default.error("Proporcional hora", "sim");
+                ////////log_1.default.error("Proporcional hora", "sim");
                 if (horas_noturnas != 0) {
                     horas_adicionais_noturnas = horas_noturnas * (14 / 24) * dias_trabalhados_mes;
                 }
                 break;
             case LRC_TIPO_ADICIONAL_NOTURNO["salario_dia"]: // Salario do dia -> O dia inteiro é considerado como adicional noturno se alguma hora invade o período noturno
-                //log_1.default.error("Salario dia", "sim");
+               //////// log_1.default.error("Salario dia", "sim");
                 if (horas_noturnas != 0) {
                     horas_adicionais_noturnas = horas_noturnas * (7 / 24) * dias_trabalhados_mes;
                 }
                 break;
         }
-        //log_1.default.error("dias_trabalhados_mes", dias_trabalhados_mes);
-        //log_1.default.error("horas_adicionais_noturnas", horas_adicionais_noturnas);
+        ////////log_1.default.error("dias_trabalhados_mes", dias_trabalhados_mes);
+        ////////log_1.default.error("horas_adicionais_noturnas", horas_adicionais_noturnas);
         //Essa condição n encontrei na planilha
         //horas_por_dia_trabalhadas == 24 ? horas_adicionais_noturnas = horas_adicionais_noturnas * 0.5: horas_adicionais_noturnas = horas_adicionais_noturnas
-        //log_1.default.error("horas_por_dia_trabalhadas noturnas", horas_por_dia_trabalhadas);
-        //log_1.default.error("horas_adicionais_noturnas após calculo", horas_adicionais_noturnas);
+       //////// log_1.default.error("horas_por_dia_trabalhadas noturnas", horas_por_dia_trabalhadas);
+        ////////log_1.default.error("horas_adicionais_noturnas após calculo", horas_adicionais_noturnas);
         // Utilizando as horas noturnas por mes calcular o preço de adicional noturno
         var valor_adicional_noturno = 0; // valor de horas noturnas 
         var premio_noturno = Number(CCTObj["custrecord_lrc_premio_noturno_cct"]);
-        //log_1.default.error("premio", premio_noturno);
+        ////////log_1.default.error("premio", premio_noturno);
         var add_noturno_porcentagem = parseFloat(String(CCTObj["custrecord_lrc_add_noturno_cct"]));
         var base_horas_totais = 1;
         if (horas_adicionais_noturnas != 0) {
-            //log_1.default.error("add_noturno_porcentagem", add_noturno_porcentagem);
+            ////////log_1.default.error("add_noturno_porcentagem", add_noturno_porcentagem);
             base_horas_totais = Number(CCTObj["custrecord_lrc_base_horas_trabalhadas"]);
-            //log_1.default.error("base_horas_totais", base_horas_totais);
+           //////// log_1.default.error("base_horas_totais", base_horas_totais);
             valor_adicional_noturno += (salario / base_horas_totais) * ((add_noturno_porcentagem) / 100) * (horas_adicionais_noturnas) + premio_noturno;
-            //log_1.default.error("valor_adicional_noturno dentro if", valor_adicional_noturno);
+            ////////log_1.default.error("valor_adicional_noturno dentro if", valor_adicional_noturno);
         }
         var redut_adicional_noturno;
         redut_adicional_noturno = (salario / base_horas_totais) * (add_noturno_porcentagem / 100) * 0.1428 * (horas_adicionais_noturnas); //redut. adicional noturno
-        //log_1.default.error("redut_adicional_noturno", redut_adicional_noturno);
+        ////////log_1.default.error("redut_adicional_noturno", redut_adicional_noturno);
         valor_adicional_noturno += redut_adicional_noturno;
-        //log_1.default.error("valor_adicional_noturno", valor_adicional_noturno);
+        ////////log_1.default.error("valor_adicional_noturno", valor_adicional_noturno);
         return {
             "set": {
                 "custcol_lrc_add_noturno_so": valor_adicional_noturno ? valor_adicional_noturno : 0,
@@ -470,24 +470,24 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
     exports.calculateAdicionalNoturno = calculateAdicionalNoturno;
     function calculateRemuneracao(CCTObj, escalaObj, num_pessoas, piso_salarial, salario, adicional_noturno, valor_horas_extras, LRC_TIPO_EXCECAO, LRC_TIPO_DESCONTO) {
         var premio = parseFloat(String(CCTObj["custrecord_lrc_premio_cct"])) / 100 * piso_salarial;
-        //log_1.default.error("premio", premio);
+        //////log_1.default.error("premio", premio);
         var gratificacao = parseFloat(String(CCTObj["custrecord_lrc_gratificacao_cct"])) / 100 * piso_salarial;
-        //log_1.default.error("gratificao", gratificacao);
+        //////log_1.default.error("gratificao", gratificacao);
         var insalubridade = parseFloat(String(CCTObj["custrecord_lrc_insalubridade_cct"])) / 100 * piso_salarial;
-        //log_1.default.error("insalubridade", insalubridade);
+        //////log_1.default.error("insalubridade", insalubridade);
         var adicional_permanencia = parseFloat(String(CCTObj["custrecord_lrc_adicional_permanencia_cct"])) / 100 * piso_salarial;
-        //log_1.default.error("adicional_permanencia", adicional_permanencia);
+        //////log_1.default.error("adicional_permanencia", adicional_permanencia);
         var dia_vigilante = Number(CCTObj["custrecord_lrc_dia_vigilante_cct"]);
-        //log_1.default.error("dia_vigilante", dia_vigilante);
+        //////log_1.default.error("dia_vigilante", dia_vigilante);
         var DSR_porc = parseFloat(String(escalaObj["custrecord_rsc_dsr_porc"])) / 100;
-        //log_1.default.error("DSR %", DSR_porc);
+        //////log_1.default.error("DSR %", DSR_porc);
         var DSR = DSR_porc * (valor_horas_extras);
-        //log_1.default.error("DSR", DSR);
-        //log_1.default.error("horas extras", valor_horas_extras);
+        //////log_1.default.error("DSR", DSR);
+        //////log_1.default.error("horas extras", valor_horas_extras);
         var salario_parcial_periculosidade = piso_salarial * num_pessoas + valor_horas_extras + adicional_noturno + DSR + gratificacao + premio + insalubridade;
-        //log_1.default.error("salario_parcial_periculosidade", salario_parcial_periculosidade);
+        //////log_1.default.error("salario_parcial_periculosidade", salario_parcial_periculosidade);
         var periculosidade = (parseFloat(String(CCTObj["custrecord_lrc_periculosidade_cct"])) / 100) * salario_parcial_periculosidade;
-        //log_1.default.error("periculosidade", periculosidade);
+       ////// log_1.default.error("periculosidade", periculosidade);
         // Cálculo de exceções de Remuneração
         var valor_excecao = 0;
         var valor_base_excecao = 0;
@@ -542,23 +542,23 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
                 descricao_excecoes += "\n";
             }
         });
-        //log_1.default.error("descricao_excecoes", descricao_excecoes);
-        //log_1.default.error("valor_base_excecao", valor_base_excecao);
-        //log_1.default.error("porcentagem_piso_salarial", porcentagem_piso_salarial);
-        //log_1.default.error("porcentagem_salario", porcentagem_salario);
+        //////log_1.default.error("descricao_excecoes", descricao_excecoes);
+        //////log_1.default.error("valor_base_excecao", valor_base_excecao);
+        //////log_1.default.error("porcentagem_piso_salarial", porcentagem_piso_salarial);
+        //////log_1.default.error("porcentagem_salario", porcentagem_salario);
         valor_excecao += valor_base_excecao;
         valor_excecao += piso_salarial * (porcentagem_piso_salarial / 100);
         valor_excecao += salario * (porcentagem_salario / 100);
-        //log_1.default.error("valor_excecao", valor_excecao);
+       ////// log_1.default.error("valor_excecao", valor_excecao);
         var custo_salario = piso_salarial * num_pessoas + premio + gratificacao + periculosidade + insalubridade + valor_horas_extras;
         custo_salario += adicional_noturno + dia_vigilante + adicional_permanencia + valor_excecao + DSR; // - total_descontos + encargos + plr ;
-        //log_1.default.error("custo_salario", custo_salario);
+       ////// log_1.default.error("custo_salario", custo_salario);
         var encargos = parseFloat(String(CCTObj["custrecord_lrc_encargos_cct"])) / 100 * custo_salario;
-        //log_1.default.error("encargos", encargos);
+        //////log_1.default.error("encargos", encargos);
         // let reserva_tec = (custo_salario + encargos) * reserva_tec_porc
         // Log.error("reserva_tec", reserva_tec);
         var remuneracao = custo_salario + encargos; // + reserva_tec
-        //log_1.default.error("remuneracao", remuneracao);
+       ////// log_1.default.error("remuneracao", remuneracao);
         return {
             "set": {
                 "custcol_lrc_gratificacao_so": gratificacao,
@@ -579,58 +579,58 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         var valor_cesta_basica = Number(CCTObj["custrecord_lrc_cesta_basica_cct"]) * num_pessoas;
         if (CCTObj["custrecord_lrc_check_cbasica_ferias_cct"])
             valor_cesta_basica += 1 / 12 * valor_cesta_basica;
-        //log_1.default.error("valor_cesta_basica", valor_cesta_basica);
+       // log_1.default.error("valor_cesta_basica", valor_cesta_basica);
         var valor_vale_alimentacao_total = ((!horario_de_almoco) || (alimentacao_cliente && !adicional_vale_refeicao)) ? 0 : Number(CCTObj["custrecord_lrc_vale_alimentacao_dia_cct"]) * dias_trabalhados_mes * num_pessoas;
-        //log_1.default.error("1valor_vale_alimentacao_total", valor_vale_alimentacao_total);
-        //log_1.default.error("1horario de almoço", horario_de_almoco);
-        //log_1.default.error("1alimentacao_cliente", alimentacao_cliente);
-        //log_1.default.error("1adicional_vale_refeicao", adicional_vale_refeicao);
+       // log_1.default.error("1valor_vale_alimentacao_total", valor_vale_alimentacao_total);
+       // log_1.default.error("1horario de almoço", horario_de_almoco);
+       // log_1.default.error("1alimentacao_cliente", alimentacao_cliente);
+       // log_1.default.error("1adicional_vale_refeicao", adicional_vale_refeicao);
         var valor_assistencia_odonto = Number(CCTObj["custrecord_lrc_ass_odontologica_cct"]) * num_pessoas;
-        //log_1.default.error("valor_assistencia_odonto", valor_assistencia_odonto);
+       //log_1.default.error("valor_assistencia_odonto", valor_assistencia_odonto);
         var valor_assistencia_medica = Number(CCTObj["custrecord_lrc_valor_assist_med"]) * num_pessoas;
         if (CCTObj["custrecord_lrc_ass_medica_ferias_ccl"])
             valor_assistencia_medica += 1 / 12 * valor_assistencia_medica;
-        //log_1.default.error("valor_assistencia_medica", valor_assistencia_medica);
+       // log_1.default.error("valor_assistencia_medica", valor_assistencia_medica);
         var fundo_formacao = Number(CCTObj["custrecord_lrc_fundo_formacao_cct"]) * num_pessoas;
         //log_1.default.error("fundo_formacao", fundo_formacao);
         var contribuicao_sindical = Number(CCTObj["custrecord_lrc_contri_sindical_cct"]) * num_pessoas;
-        //log_1.default.error("contribuicao_sindical", contribuicao_sindical);
+       // log_1.default.error("contribuicao_sindical", contribuicao_sindical);
         var seguro_vida = Number(CCTObj["custrecord_lrc_seguro_vida_cct"]) * num_pessoas;
-        //log_1.default.error("seguro_vida", seguro_vida);
+       // log_1.default.error("seguro_vida", seguro_vida);
         var salario_familia = Number(CCTObj["custrecord_lrc_salario_familia_cct"]) * num_pessoas;
-        //log_1.default.error("salario_familia", salario_familia);
+       // log_1.default.error("salario_familia", salario_familia);
         var assistencia_social_familiar = Number(CCTObj["custrecord_lrc_ass_social_familiar_cct"]) * num_pessoas;
-        //log_1.default.error("assistencia_social_familiar", assistencia_social_familiar);
+       // log_1.default.error("assistencia_social_familiar", assistencia_social_familiar);
         var contribuicao_social = Number(CCTObj["custrecord_lrc_contri_social_cct"]) * num_pessoas;
-        //log_1.default.error("contribuicao_social", contribuicao_social);
+       // log_1.default.error("contribuicao_social", contribuicao_social);
         var equipamentos = Number(CCTObj["custrecord_lrc_equipamentos_cct"]); //equipamentos do posto
-        //log_1.default.error("equipamentos", equipamentos);
+       // log_1.default.error("equipamentos", equipamentos);
         var uniformes = Number(CCTObj["custrecord_rsc_uniformes"]) * num_pessoas; //uniforme do funcionário
-        //log_1.default.error("uniformes", uniformes);
+       // log_1.default.error("uniformes", uniformes);
         var armamento = Number(CCTObj["custrecord_rsc_armamento"]) * num_pessoas; //armamento do funcionário
         //log_1.default.error("armamento", armamento);
         var valor_vale_transporte = vale_transporte_regiao * dias_trabalhados_mes * num_pessoas * 2; //ida e volta
         if (CCTObj["custrecord_lrc_vale_trans_ferias_cct"])
             valor_vale_transporte += 1 / 12 * valor_vale_transporte;
-        //log_1.default.error("valor_vale_transporte regiao", vale_transporte_regiao);
-        //log_1.default.error("valor_vale_transporte", valor_vale_transporte);
-        //log_1.default.error("valor_vale_transporte dias", dias_trabalhados_mes);
-        //log_1.default.error("valor_vale_transporte pessoas", num_pessoas);
+       //log_1.default.error("valor_vale_transporte regiao", vale_transporte_regiao);
+       // log_1.default.error("valor_vale_transporte", valor_vale_transporte);
+       // log_1.default.error("valor_vale_transporte dias", dias_trabalhados_mes);
+       // log_1.default.error("valor_vale_transporte pessoas", num_pessoas);
         var plr = parseFloat(String(CCTObj["custrecord_lrc_plr_cct"])) / 100 * piso_salarial;
-        //log_1.default.error("plr", plr);
+      //  log_1.default.error("plr", plr);
         // Cálculo de descontos (cesta básica + vale alimentacao + assistencia medica + assistencia odontologica + vale transporte)
         // Cada um desses descontos tem o campo "Base de desconto", que indica qual o tipo de desconto (Porcentagem do piso salarial, Porcentagem do salario ou Valor base)
         var total_descontos = 0;
         // Cesta basica
         var desconto_cesta_basica = Number(CCTObj["custrecord_lrc_desconto_cesta_basica_cct"]);
-        //log_1.default.error("desconto_cesta_basica", desconto_cesta_basica);
+       // log_1.default.error("desconto_cesta_basica", desconto_cesta_basica);
         var base_desconto_cesta_basica = CCTObj["custrecord_lrc_bdesc_ccesta_basica_cct"];
         //log_1.default.error("base_desconto_cesta_basica", base_desconto_cesta_basica);
         var valor_desconto_cesta_basica;
         if (desconto_cesta_basica != 0) {
             switch (Number(base_desconto_cesta_basica)) {
                 case LRC_TIPO_DESCONTO["valor_base"]: // valor base
-                    //log_1.default.error("valor_base_cesta", "sim");
+                   // log_1.default.error("valor_base_cesta", "sim");
                     valor_desconto_cesta_basica = desconto_cesta_basica;
                     total_descontos += valor_desconto_cesta_basica;
                     break;
@@ -640,76 +640,76 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
                     total_descontos += valor_desconto_cesta_basica;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_salario"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_salario_cesta", "sim");
+                   // log_1.default.error("porcentagem_salario_cesta", "sim");
                     valor_desconto_cesta_basica = desconto_cesta_basica / 100 * salario;
                     total_descontos += valor_desconto_cesta_basica;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_valor"]: // porcentagem do valor
-                    //log_1.default.error("porcentagem_valor_cesta", "sim");
+                   // log_1.default.error("porcentagem_valor_cesta", "sim");
                     valor_desconto_cesta_basica = desconto_cesta_basica / 100 * valor_cesta_basica;
                     total_descontos += valor_desconto_cesta_basica;
                     break;
             }
         }
-        //log_1.default.error("1valor_desconto_cesta_basica", valor_desconto_cesta_basica);
+       // log_1.default.error("1valor_desconto_cesta_basica", valor_desconto_cesta_basica);
         // Vale alimentacao
         var desconto_vale_alimentacao = Number(CCTObj["custrecord_lrc_desc_vale_alimentacao_cct"]);
-        //log_1.default.error("desconto_vale_alimentacao", desconto_vale_alimentacao);
+       // log_1.default.error("desconto_vale_alimentacao", desconto_vale_alimentacao);
         var base_desconto_vale_alimentacao = CCTObj["custrecord_lrc_bdesc_vale_alime_cct"];
-        //log_1.default.error("base_desconto_vale_alimentacao VT", base_desconto_vale_alimentacao);
-        //log_1.default.error("adicional_vale_refeicao", adicional_vale_refeicao);
-        //log_1.default.error("alimentacao_cliente", alimentacao_cliente);
+      //  log_1.default.error("base_desconto_vale_alimentacao VT", base_desconto_vale_alimentacao);
+       // log_1.default.error("adicional_vale_refeicao", adicional_vale_refeicao);
+       // log_1.default.error("alimentacao_cliente", alimentacao_cliente);
         var valor_desconto_vale_alimentacao;
         if (desconto_vale_alimentacao != 0 && !(alimentacao_cliente && !adicional_vale_refeicao)) {
             switch (Number(base_desconto_vale_alimentacao)) {
                 case LRC_TIPO_DESCONTO["valor_base"]: // valor base
-                    //log_1.default.error("valor_base_alimentacao", "sim");
+                   // log_1.default.error("valor_base_alimentacao", "sim");
                     valor_desconto_vale_alimentacao = desconto_vale_alimentacao;
                     total_descontos += valor_desconto_vale_alimentacao;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_piso_salarial"]: // porcentagem do piso salarial
-                    //log_1.default.error("porcentagem_piso_salarial_alimentacao", "sim");
+                  //  log_1.default.error("porcentagem_piso_salarial_alimentacao", "sim");
                     valor_desconto_vale_alimentacao = desconto_vale_alimentacao / 100 * piso_salarial;
                     total_descontos += valor_desconto_vale_alimentacao;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_salario"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_salario_alimentacao", "sim");
+                  //  log_1.default.error("porcentagem_salario_alimentacao", "sim");
                     valor_desconto_vale_alimentacao = desconto_vale_alimentacao / 100 * salario;
                     total_descontos += valor_desconto_vale_alimentacao;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_valor"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_valor_alimentacao", "sim");
+                   // log_1.default.error("porcentagem_valor_alimentacao", "sim");
                     valor_desconto_vale_alimentacao = desconto_vale_alimentacao / 100 * valor_vale_alimentacao_total;
                     total_descontos += valor_desconto_vale_alimentacao;
                     break;
             }
         }
-        //log_1.default.error("1valor_desconto_vale_alimentacao", valor_desconto_vale_alimentacao);
+       // log_1.default.error("1valor_desconto_vale_alimentacao", valor_desconto_vale_alimentacao);
         // Assistencia medica
         var desconto_assistencia_medica = Number(CCTObj["custrecord_lrc_desconto_ass_medica_ccl"]);
-        //log_1.default.error("desconto_assistencia_medica", desconto_vale_alimentacao);
+       // log_1.default.error("desconto_assistencia_medica", desconto_vale_alimentacao);
         var base_desconto_assistencia_medica = CCTObj["custrecord_lrc_bdesc_ass_medica_cct"];
-        //log_1.default.error("base_desconto_assistencia_medica", base_desconto_assistencia_medica);
+       // log_1.default.error("base_desconto_assistencia_medica", base_desconto_assistencia_medica);
         var valor_desconto_assistencia_medica;
         if (desconto_assistencia_medica != 0) {
             switch (Number(base_desconto_assistencia_medica)) {
                 case LRC_TIPO_DESCONTO["valor_base"]: // valor base
-                    //log_1.default.error("valor_base_assistencia_medica", "sim");
+                   // log_1.default.error("valor_base_assistencia_medica", "sim");
                     valor_desconto_assistencia_medica = desconto_assistencia_medica;
                     total_descontos += valor_desconto_assistencia_medica;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_piso_salarial"]: // porcentagem do piso salarial
-                    //log_1.default.error("porcentagem_piso_salarial_assistencia_medica", "sim");
+                   // log_1.default.error("porcentagem_piso_salarial_assistencia_medica", "sim");
                     valor_desconto_assistencia_medica = desconto_assistencia_medica / 100 * piso_salarial;
                     total_descontos += valor_desconto_assistencia_medica;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_salario"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_salario_assistencia_medica", "sim");
+                   // log_1.default.error("porcentagem_salario_assistencia_medica", "sim");
                     valor_desconto_assistencia_medica = desconto_assistencia_medica / 100 * salario;
                     total_descontos += valor_desconto_assistencia_medica;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_valor"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_valor_medica", "sim");
+                   // log_1.default.error("porcentagem_valor_medica", "sim");
                     valor_desconto_assistencia_medica = desconto_assistencia_medica / 100 * valor_assistencia_medica;
                     total_descontos += valor_desconto_assistencia_medica;
                     break;
@@ -718,14 +718,14 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         //log_1.default.error("1valor_desconto_assistencia_médica", valor_desconto_assistencia_medica);
         // Assistencia odontologica
         var desconto_assistencia_odonto = Number(CCTObj["custrecord_lrc_desc_ass_odontologica_cct"]);
-        //log_1.default.error("desconto_assistencia_odonto", desconto_assistencia_odonto);
+       // log_1.default.error("desconto_assistencia_odonto", desconto_assistencia_odonto);
         var base_desconto_assistencia_odonto = CCTObj["custrecord_lrc_bdesc_ass_odonto_cct"];
-        //log_1.default.error("base_desconto_assistencia_odonto", base_desconto_assistencia_odonto);
+       // log_1.default.error("base_desconto_assistencia_odonto", base_desconto_assistencia_odonto);
         var valor_desconto_assistencia_odonto;
         if (desconto_assistencia_odonto != 0) {
             switch (Number(base_desconto_assistencia_odonto)) {
                 case LRC_TIPO_DESCONTO["valor_base"]: // valor base
-                    //log_1.default.error("valor_base_assistencia_odonto", "sim");
+                   // log_1.default.error("valor_base_assistencia_odonto", "sim");
                     valor_desconto_assistencia_odonto = desconto_assistencia_odonto;
                     total_descontos += valor_desconto_assistencia_odonto;
                     break;
@@ -735,18 +735,18 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
                     total_descontos += valor_desconto_assistencia_odonto;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_salario"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_salario_assistencia_odonto", "sim");
+                   // log_1.default.error("porcentagem_salario_assistencia_odonto", "sim");
                     valor_desconto_assistencia_odonto = desconto_assistencia_odonto / 100 * salario;
                     total_descontos += valor_desconto_assistencia_odonto;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_valor"]: // porcentagem do valor
-                    //log_1.default.error("porcentagem_valor_odonto", "sim");
+                   // log_1.default.error("porcentagem_valor_odonto", "sim");
                     valor_desconto_assistencia_odonto = desconto_assistencia_odonto / 100 * valor_assistencia_odonto;
                     total_descontos += valor_desconto_assistencia_odonto;
                     break;
             }
         }
-        //log_1.default.error("valor_desconto_assistencia_odonto", valor_desconto_assistencia_odonto);
+       // log_1.default.error("valor_desconto_assistencia_odonto", valor_desconto_assistencia_odonto);
         // Vale transporte
         var desconto_vale_transporte = Number(CCTObj["custrecord_lrc_desc_vale_transporte_cct"]);
         //log_1.default.error("desconto_vale_transporte", desconto_vale_transporte);
@@ -756,29 +756,29 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         if (desconto_vale_transporte != 0) {
             switch (Number(base_desconto_vale_transporte)) {
                 case LRC_TIPO_DESCONTO["valor_base"]: // valor base
-                    //log_1.default.error("valor_base_vale_transporte", "sim");
+                   // log_1.default.error("valor_base_vale_transporte", "sim");
                     valor_desconto_vale_transporte = desconto_vale_transporte;
                     total_descontos += valor_desconto_vale_transporte;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_piso_salarial"]: // porcentagem do piso salarial
-                    //log_1.default.error("porcentagem_piso_salarial_vale_trasnporte", "sim");
+                  //  log_1.default.error("porcentagem_piso_salarial_vale_trasnporte", "sim");
                     valor_desconto_vale_transporte = (desconto_vale_transporte / 100) * num_pessoas * piso_salarial;
                     total_descontos += valor_desconto_vale_transporte;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_salario"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_salario_vale_transporte", "sim");
+                   // log_1.default.error("porcentagem_salario_vale_transporte", "sim");
                     valor_desconto_vale_transporte = desconto_vale_transporte / 100 * num_pessoas * salario;
                     total_descontos += valor_desconto_vale_transporte;
                     break;
                 case LRC_TIPO_DESCONTO["porcentagem_valor"]: // porcentagem do salario
-                    //log_1.default.error("porcentagem_valor_transporte", "sim");
+                   // log_1.default.error("porcentagem_valor_transporte", "sim");
                     valor_desconto_vale_transporte = desconto_vale_transporte / 100 * num_pessoas * valor_vale_transporte;
                     total_descontos += valor_desconto_vale_transporte;
                     break;
             }
         }
-        //log_1.default.error("porcentagem_valor_transporte", valor_desconto_vale_transporte);
-        //log_1.default.error("total_descontos", total_descontos);
+       // log_1.default.error("porcentagem_valor_transporte", valor_desconto_vale_transporte);
+       // log_1.default.error("total_descontos", total_descontos);
         // tabela de excecoes
         var valor_excecao = 0;
         var valor_base_excecao = 0;
@@ -833,18 +833,18 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
                 descricao_excecoes += "\n";
             }
         });
-        //log_1.default.error("descricao_excecoes", descricao_excecoes);
-        //log_1.default.error("valor_base_excecao", valor_base_excecao);
-        //log_1.default.error("porcentagem_piso_salarial", porcentagem_piso_salarial);
-        //log_1.default.error("porcentagem_salario", porcentagem_salario);
+       // log_1.default.error("descricao_excecoes", descricao_excecoes);
+      //  log_1.default.error("valor_base_excecao", valor_base_excecao);
+       // log_1.default.error("porcentagem_piso_salarial", porcentagem_piso_salarial);
+       // log_1.default.error("porcentagem_salario", porcentagem_salario);
         valor_excecao += valor_base_excecao;
         valor_excecao += piso_salarial * (porcentagem_piso_salarial / 100);
         valor_excecao += salario * (porcentagem_salario / 100);
-        //log_1.default.error("valor_excecao", valor_excecao);
+      //  log_1.default.error("valor_excecao", valor_excecao);
         var beneficios = valor_cesta_basica + adicional_cesta_basica + valor_vale_alimentacao_total + adicional_vale_refeicao + valor_assistencia_medica + valor_assistencia_odonto;
         beneficios += valor_vale_transporte + adicional_vale_transporte + fundo_formacao + contribuicao_sindical + assistencia_social_familiar;
         beneficios += salario_familia + contribuicao_social + seguro_vida + valor_excecao + adicional_beneficio + uniformes + armamento - total_descontos;
-        //log_1.default.error("beneficios", beneficios);
+      //  log_1.default.error("beneficios", beneficios);
         return {
             "set": {
                 "custcol_lrc_cesta_basica_so": valor_cesta_basica,
@@ -886,7 +886,7 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
             var iss = impostosMunicipaisSearchRange[0].getValue("custrecord_lrc_iss_impmun") || 0;
             impostos_municipais += parseFloat(String(iss));
         }
-        //log_1.default.error("impostos_municipais", impostos_municipais);
+       // log_1.default.error("impostos_municipais", impostos_municipais);
         // impostos federais
         var impostosFederaisSearchRange = search_1.default.create({
             type: "customrecord_lrc_impostos_federais",
@@ -906,12 +906,11 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
             var csll = impostosFederaisSearchRange[0].getValue("custrecord_lrc_csll_impostofed") || 0;
             impostos_federais += parseFloat(String(irrf)) + parseFloat(String(pis)) + parseFloat(String(cofins)) + parseFloat(String(csll));
         }
-        //log_1.default.error("impostos_federais", impostos_federais);
+       // log_1.default.error("impostos_federais", impostos_federais);
         return impostos_federais + impostos_municipais;
     }
     exports.calculateImpostos = calculateImpostos;
     function calculateLineRate(CCTObj, remuneracao, beneficios, total_impostos, total_taxas, item) {
-        log_1.default.error('calcula line rate', {CCTObj: CCTObj, remuneracao:remuneracao, beneficios:beneficios, total_impostos:total_impostos, total_taxas:total_taxas, item:item})
         var equipamentos_imposto = Number(CCTObj["custrecord_lrc_equipamentos_cct"]);
         // impostos federais
         var impostosFederaisSearch = search_1.default.create({
@@ -924,8 +923,6 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
             start: 0,
             end: 1
         });
-        
-        log_1.default.error('valor da busca', impostosFederaisSearch)
         var lucro_bruto_desc_porc = impostosFederaisSearch[0].getValue("custrecord_rsc_lucro_bruto") || 0;
         var tx_operacional_porc = impostosFederaisSearch[0].getValue("custrecord_rsc_tx_operacional") || 0;
         var taxa_adm = (remuneracao + beneficios + equipamentos_imposto) * tx_operacional_porc;
@@ -934,14 +931,15 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
         var valor_impostos = ((x - lucro_bruto_desc) / ((100 - total_impostos) / 100)) - (x - lucro_bruto_desc);
         var valor_impostos_lucro = valor_impostos - lucro_bruto_desc;
         var total = remuneracao + beneficios + valor_impostos_lucro + taxa_adm;
-        //log_1.default.error("1lucro_bruto_desc", lucro_bruto_desc);
-        //log_1.default.error("1total", total);
-        //log_1.default.error("1remuneracao", remuneracao);
-        //log_1.default.error("1beneficios", beneficios);
-        //log_1.default.error("1lucro_bruto_desc_porc", lucro_bruto_desc_porc);
-        //log_1.default.error("1equipamentos_imposto", equipamentos_imposto);
-        //log_1.default.error("1valor_impostos", valor_impostos);
-        //log_1.default.error("1valor_impostos_lucro", valor_impostos_lucro);
+        log_1.default.error("vetorzin", impostosFederaisSearch);
+        log_1.default.error("1lucro_bruto_desc", lucro_bruto_desc);
+        log_1.default.error("1total", total);
+        log_1.default.error("1remuneracao", remuneracao);
+        log_1.default.error("1beneficios", beneficios);
+        log_1.default.error("1lucro_bruto_desc_porc", lucro_bruto_desc_porc);
+        log_1.default.error("1equipamentos_imposto", equipamentos_imposto);
+        log_1.default.error("1valor_impostos", valor_impostos);
+        log_1.default.error("1valor_impostos_lucro", valor_impostos_lucro);
         //x + (x * total_impostos)/(100 - total_impostos - total_taxas) + (x * total_taxas)/(100 - total_impostos - total_taxas)- lucro_bruto_desc)
         return total;
     }
@@ -996,7 +994,7 @@ define(["require", "exports", "N/log", "N/search", "N/https", "N/url"], function
             }
             else {
                 var base_desconto_vale_alimentacao = CCTLookup["custrecord_lrc_bdesc_vale_alime_cct"][0].value;
-                //log_1.default.error("base_desconto_vale_alimentacao else", base_desconto_vale_alimentacao);
+               // log_1.default.error("base_desconto_vale_alimentacao else", base_desconto_vale_alimentacao);
                 if (base_desconto_vale_alimentacao != LRC_TIPO_DESCONTO["valor_base"] && base_desconto_vale_alimentacao != LRC_TIPO_DESCONTO["porcentagem_piso_salarial"] && base_desconto_vale_alimentacao != LRC_TIPO_DESCONTO["porcentagem_salario"] && base_desconto_vale_alimentacao != LRC_TIPO_DESCONTO["porcentagem_valor"]) { // valor nao parametrizado
                     errors.push({
                         "name": "INVALID_VALUE",
