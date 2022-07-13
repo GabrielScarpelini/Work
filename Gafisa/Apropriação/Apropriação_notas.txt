@@ -1,0 +1,30 @@
+GAF apropriação
+
+percentual poc 
+percentual vendido 
+percentual recebido
+
+investigar quantas casas decimais e precisa tabalhar com no mínimo 7casas decimais.  
+
+rateio: 
+custo contrução
+custo terreno 
+e encargos financeiros
+------------------------
+custo fiscal é a somatória desses campos acima
+
+custo fiscal / apropriação custo imobiliario fiscal
+
+
+rsc_cont_apropimob.js
+rsc_mr_aprop_process_je.js
+
+
+rsc_module_aprop_query.js
+linha 146
+linha 207
+
+pasta aprop. 
+
+para restringir linha 222 dps de subsidiary.id ... and job.id in (in ...) 
+na bib e na apropimob.
