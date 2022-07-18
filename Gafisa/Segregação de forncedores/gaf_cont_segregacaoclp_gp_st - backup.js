@@ -119,7 +119,7 @@
                     type: ui.FieldType.TEXT
                 }).updateDisplayType({displayType: ui.FieldDisplayType.DISABLED})
                 
-                var tipoSEgregação = sublist.addField({
+                var tipoSegregação = sublist.addField({
                     id: 'custpage_tipo',
                     label: 'Tipo de Segregação',
                     type: ui.FieldType.TEXT
@@ -351,7 +351,7 @@
                                 valor: result.getValue({name: "amount", join: "installment"}),
                                 fatura: result.getValue("tranid"),
                                 etapaProjeto: result.getValue('class'),
-                                nomeProeto: result.getValue('custbody_rsc_projeto_obra_gasto_compra'),
+                                nomeProjeto: result.getValue('custbody_rsc_projeto_obra_gasto_compra'),
                                 departamento: result.getValue('department'),
                                 location: result.getValue('location'),
                                 checkbox: false,
@@ -471,7 +471,7 @@
                                 lancamento.setCurrentSublistValue('line','memo',"Segregação de Curto Prazo")
                                 lancamento.setCurrentSublistValue('line','department',json[0].departamento)
                                 lancamento.setCurrentSublistValue('line','class',json[0].etapaProjeto)
-                                lancamento.setCurrentSublistValue('line','custcol_rsc_fieldcliente',json[0].nomeProeto)
+                                lancamento.setCurrentSublistValue('line','custcol_rsc_fieldcliente',json[0].nomeProjeto)
                                 lancamento.setCurrentSublistValue('line','entity',json[0].vendor)
                                 lancamento.setCurrentSublistValue('line','location',json[0].location)
                                 lancamento.setCurrentSublistValue('line',"account", 924)
@@ -483,7 +483,7 @@
                                 lancamento.setCurrentSublistValue('line','memo',"Segregação de Longo Prazo")
                                 lancamento.setCurrentSublistValue('line','department',json[0].departamento)
                                 lancamento.setCurrentSublistValue('line','class',json[0].etapaProjeto)
-                                lancamento.setCurrentSublistValue('line','custcol_rsc_fieldcliente',json[0].nomeProeto)
+                                lancamento.setCurrentSublistValue('line','custcol_rsc_fieldcliente',json[0].nomeProjeto)
                                 lancamento.setCurrentSublistValue('line','entity',json[0].vendor)
                                 lancamento.setCurrentSublistValue('line','location',json[0].location)
                                 lancamento.setCurrentSublistValue('line',"account", 1331)
@@ -494,7 +494,7 @@
                             lancamento.setCurrentSublistValue('line','memo',"Segregação de Fornecedores")
                             lancamento.setCurrentSublistValue('line','department',json[0].departamento)
                             lancamento.setCurrentSublistValue('line','class',json[0].etapaProjeto)
-                            lancamento.setCurrentSublistValue('line','custcol_rsc_fieldcliente',json[0].nomeProeto)
+                            lancamento.setCurrentSublistValue('line','custcol_rsc_fieldcliente',json[0].nomeProjeto)
                             lancamento.setCurrentSublistValue('line','entity',json[0].vendor)
                             lancamento.setCurrentSublistValue('line','location',json[0].location)
                             lancamento.setCurrentSublistValue('line','account', 914)
