@@ -130,20 +130,21 @@
                     type: ui.FieldType.INTEGER,
                     label: 'Número de Prestações'
                 }).updateDisplayType({displayType: ui.FieldDisplayType.DISABLED})
-
+                
+                
                 var date = sublist.addField({
                     id: 'custpage_data',
                     type: ui.FieldType.DATE,
                     label: 'Data'
                 }).updateDisplayType({displayType: ui.FieldDisplayType.DISABLED})
-
+                
                 var sub = sublist.addField({
                     id: 'custpage_subsidiary',
                     type: ui.FieldType.SELECT,
                     source: 'subsidiary',
                     label: 'Subsidiária'
                 }).updateDisplayType({displayType: ui.FieldDisplayType.INLINE})
-
+                
                 var fornece = sublist.addField({
                     id: 'custpage_fornecedor',
                     type: ui.FieldType.SELECT,

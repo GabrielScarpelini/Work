@@ -99,39 +99,40 @@ function map(context) {
         .setValue('custbodysegregacao_curt_long', jsonLancamentos.checkbox)
         .setValue('custbody_ref_parcela',jsonLancamentos.idFatura);
         
-        if (jsonLancamentos.curtoPrazo > 0 && jsonLancamentos.longoPrazo > 0) {
-            log.audit('Aqui 1', jsonLancamentos);
-            lancamento.setValue('memo', 'Segregação de Curto Prazo')
-            .selectNewLine('line')
-            .setCurrentSublistValue('line', 'debit', jsonLancamentos.curtoPrazo)
-            .setCurrentSublistValue('line', 'memo', "Segregação de Curto Prazo")
-            .setCurrentSublistValue('line', 'department', jsonLancamentos.departamento)
-            .setCurrentSublistValue('line', 'class', jsonLancamentos.etapaProjeto)
-            .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProeto)
-            .setCurrentSublistValue('line', 'entity', jsonLancamentos.vendor)
-            .setCurrentSublistValue('line', 'location', jsonLancamentos.location)
-            .setCurrentSublistValue('line', "account", 924) // (DÉBITO) Curto Prazo
-            .commitLine('line');
+        // if (jsonLancamentos.curtoPrazo > 0 && jsonLancamentos.longoPrazo > 0) {
+        //     log.audit('Aqui 1', jsonLancamentos);
+        //     lancamento.setValue('memo', 'Segregação de Curto Prazo')
+        //     .selectNewLine('line')
+        //     .setCurrentSublistValue('line', 'debit', jsonLancamentos.curtoPrazo)
+        //     .setCurrentSublistValue('line', 'memo', "Segregação de Curto Prazo")
+        //     .setCurrentSublistValue('line', 'department', jsonLancamentos.departamento)
+        //     .setCurrentSublistValue('line', 'class', jsonLancamentos.etapaProjeto)
+        //     .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProjeto)
+        //     .setCurrentSublistValue('line', 'entity', jsonLancamentos.vendor)
+        //     .setCurrentSublistValue('line', 'location', jsonLancamentos.location)
+        //     .setCurrentSublistValue('line', "account", 924) // (DÉBITO) Curto Prazo
+        //     .commitLine('line');
 
-            lancamento.setValue('memo', 'Segregação de Longo Prazo')
-            .selectNewLine('line')
-            .setCurrentSublistValue('line', 'debit', jsonLancamentos.longoPrazo)
-            .setCurrentSublistValue('line', 'memo', "Segregação de Longo Prazo")
-            .setCurrentSublistValue('line', 'department', jsonLancamentos.departamento)
-            .setCurrentSublistValue('line', 'class', jsonLancamentos.etapaProjeto)
-            .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProeto)
-            .setCurrentSublistValue('line', 'entity', jsonLancamentos.vendor)
-            .setCurrentSublistValue('line', 'location', jsonLancamentos.location)
-            .setCurrentSublistValue('line', "account", 1331) // (DÉBITO) Longo Prazo
-            .commitLine('line');
-        } else if (jsonLancamentos.longoPrazo == 0) {
+        //     lancamento.setValue('memo', 'Segregação de Longo Prazo')
+        //     .selectNewLine('line')
+        //     .setCurrentSublistValue('line', 'debit', jsonLancamentos.longoPrazo)
+        //     .setCurrentSublistValue('line', 'memo', "Segregação de Longo Prazo")
+        //     .setCurrentSublistValue('line', 'department', jsonLancamentos.departamento)
+        //     .setCurrentSublistValue('line', 'class', jsonLancamentos.etapaProjeto)
+        //     .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProjeto)
+        //     .setCurrentSublistValue('line', 'entity', jsonLancamentos.vendor)
+        //     .setCurrentSublistValue('line', 'location', jsonLancamentos.location)
+        //     .setCurrentSublistValue('line', "account", 1331) // (DÉBITO) Longo Prazo
+        //     .commitLine('line');
+        // } else 
+        if (jsonLancamentos.tipoSegreg == "Curto Prazo") {
             lancamento.setValue('memo', 'Segregação de Curto Prazo')
             .selectNewLine('line')
-            .setCurrentSublistValue('line', 'debit', jsonLancamentos.curtoPrazo)
+            .setCurrentSublistValue('line', 'debit', jsonLancamentos.valor)
             .setCurrentSublistValue('line', 'memo', "Segregação de Curto Prazo")
             .setCurrentSublistValue('line', 'department', jsonLancamentos.departamento)
             .setCurrentSublistValue('line', 'class', jsonLancamentos.etapaProjeto)
-            .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProeto)
+            .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProjeto)
             .setCurrentSublistValue('line', 'entity', jsonLancamentos.vendor)
             .setCurrentSublistValue('line', 'location', jsonLancamentos.location)
             .setCurrentSublistValue('line', "account", 924) // (DÉBITO) Curto Prazo 
@@ -139,11 +140,11 @@ function map(context) {
         } else {
             lancamento.setValue('memo', 'Segregação de Longo Prazo')
             .selectNewLine('line')
-            .setCurrentSublistValue('line', 'debit', jsonLancamentos.longoPrazo)
+            .setCurrentSublistValue('line', 'debit', jsonLancamentos.valor)
             .setCurrentSublistValue('line', 'memo', "Segregação de Longo Prazo")
             .setCurrentSublistValue('line', 'department', jsonLancamentos.departamento)
             .setCurrentSublistValue('line', 'class', jsonLancamentos.etapaProjeto)
-            .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProeto)
+            .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente', jsonLancamentos.nomeProjeto)
             .setCurrentSublistValue('line', 'entity', jsonLancamentos.vendor)
             .setCurrentSublistValue('line', 'location', jsonLancamentos.location)
             .setCurrentSublistValue('line', "account", 1331) // (DÉBITO) Longo Prazo
@@ -155,7 +156,7 @@ function map(context) {
         .setCurrentSublistValue('line', 'memo', "Segregação de Fornecedores")
         .setCurrentSublistValue('line', 'department', jsonLancamentos.departamento)
         .setCurrentSublistValue('line', 'class', jsonLancamentos.etapaProjeto)
-        .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente',jsonLancamentos.nomeProeto)
+        .setCurrentSublistValue('line', 'custcol_rsc_fieldcliente',jsonLancamentos.nomeProjeto)
         .setCurrentSublistValue('line', 'entity', jsonLancamentos.vendor)
         .setCurrentSublistValue('line', 'location', jsonLancamentos.location)
         .setCurrentSublistValue('line', 'account', 914) // (CRÉDITO) Segregação de Fornecedores
