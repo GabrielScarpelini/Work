@@ -660,20 +660,13 @@ $('#custpage_cpf').val('');
                                 </div>
                             </div>
 
-                            <div class="form-group has-feedback">
-                                <label for="complemento_button" class="control-label col-sm-2">Possui Complemento?</label>
-                                <div class=" col-sm-10 required">
-                           <button type="button" class="btn btn-default" id="complemento_sim">Sim</button>
-                           <button type="button" class="btn btn-default" id="complemento_não" >Não</button>
-                           </div>
-                           </div>
 
-                            <div class="form-group has-feedback" id="complemento_div">
+                            <div class="form-group has-feedback">
 
                                 <label for="complemento" class="control-label col-sm-2">Complemento</label>
                                 <div class="col-sm-10">
                                     <input name="complemento" type="text" id="complemento" value=""  class="form-control" placeholder="" >
-                                    <span  aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                                     <p class="help-block">Exemplo: galpao 1</p>
                                 </div>
                             </div>
@@ -729,14 +722,6 @@ $('#custpage_cpf').val('');
             </div>
 
                        <div class="form-group has-feedback">
-                            <label for="radio_insestadual" class="control-label col-sm-2">Possui Inscrição Estadual?</label>
-                            <div class=" col-sm-10 required">
-                       <button type="button" class="btn btn-default" id="estadual_sim">Sim</button>
-                       <button type="button" class="btn btn-default" id="estadual_não" >Não</button>
-                       </div>
-                       </div>
-
-                       <div class="form-group has-feedback" id="custpage_insestadual_div">
                               <label for="custpage_insestadual" class="control-label col-sm-2">Inscrição Estadual</label>
                               <div class="col-sm-10">
                                  <input type="text"  name="custpage_insestadual" class="form-control" id="custpage_insestadual" placeholder="">
@@ -744,16 +729,8 @@ $('#custpage_cpf').val('');
                                  <p class="help-block">Para o estado de SP Ex: 934.541.410.229</p>
                               </div>
                            </div>
-                           
+
                            <div class="form-group has-feedback">
-                                <label for="radio_insestadual" class="control-label col-sm-2">Possui Inscrição Municipal?</label>
-                                <div class=" col-sm-10 required">
-                           <button type="button" class="btn btn-default" id="municipal_sim">Sim</button>
-                           <button type="button" class="btn btn-default" id="municipal_não" >Não</button>
-                           </div>
-                           </div>
-    
-                           <div class="form-group has-feedback" id="custpage_insmunicipal_div">
                                   <label for="custpage_insmunicipal" class="control-label col-sm-2">Inscrição Municipal</label>
                                   <div class="col-sm-10">
                                      <input type="text"  name="custpage_insmunicipal" class="form-control" id="custpage_insmunicipal" placeholder="">
@@ -763,14 +740,10 @@ $('#custpage_cpf').val('');
                             </div>
                             <div class="form-group has-feedback" id="custpage_estatuto_social_vigente">
                                   <label for="custpage_estatuto_social_vigente" class="control-label col-sm-2">Contrato Estatuto Social Vigente</label>
-                                     <input type="file"  name="custpage_estatuto_social_vigente"  class="file_to_chosee" id="custpage_insmunicipal" placeholder="">
+                                     <input type="file"  name="custpage_estatuto_social_vigente" size="30" class="file_to_chosee" id="custpage_insmunicipal_arq" placeholder="">
                                      <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>-->
                                      
                             </div> 
-
-
-
-
 
                             </div>
                             </div>
