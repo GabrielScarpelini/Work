@@ -67,7 +67,7 @@
                      custrecord_rsc_cotacao_compras_qtd: quantity
                  }
  
-                 cotacaoLine = record.create({
+                 var cotacaoLine = record.create({
                      type: 'customrecord_rsc_cotacao_compras_linhas',
                      isDynamic: true
                  })
