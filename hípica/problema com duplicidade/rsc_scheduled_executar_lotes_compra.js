@@ -110,7 +110,7 @@
          }
      }
  
-     function _createPurchaseOrder(idcot) { //AJUSTAR OS CAMPOS PARA CRIAR A ORDEM DE COMPRA
+     function _createPurchaseOrder() { //AJUSTAR OS CAMPOS PARA CRIAR A ORDEM DE COMPRA
  
          var itemId,
              quantidade,
@@ -135,8 +135,8 @@
                  class: fromRecord.getValue({ fieldId: 'class' }),
                  location: fromRecord.getValue({ fieldId: 'location' }),
                  memo: fromRecord.getValue({ fieldId: 'memo' }),
-                   duedate: fromRecord.getValue({ fieldId: 'custbody_rsc_cotacao_data_termino' }), //ajustar data
-                   custbody3: fromRecord.getValue({ fieldId: 'custbody3' }),
+                 duedate: fromRecord.getValue({ fieldId: 'custbody_rsc_cotacao_data_termino' }), //ajustar data
+                 custbody3: fromRecord.getValue({ fieldId: 'custbody3' }),
                  terms: parcelamento,
                  incoterm: incoterm,
                  custbody_rsc_cotacao_compras_id: id//ajustar origem,
@@ -284,15 +284,14 @@
      }
  
      function execute(context) {
-        
+        log.audit('execute', context);
+        const activated = false 
         const scriptAtual = runtime.getCurrentScript();
-        const parametro = JSON.parse(scriptAtual.getParameter({name: 'custscript_rsc_id_cotacao'}));
-        
-        
-        log.audit('valor do scr', scriptAtual) 
-        log.audit('valor do param', parametro) 
-        log.audit('valor do context', context) 
-
+        const parametro = scriptAtual.getParameter({name: 'custscript_rsc_id_cotacao'});
+        log.audit('execute', {
+            parametro: parametro,
+            scriptAtual: scriptAtual
+        });
         
         var typeId
 
@@ -319,42 +318,56 @@
                  ]
          });
 
-        //  searchResults.run().each(function (result) {
-        //      loteId = result.id
-        //      typeId = result.getValue({ name: 'custrecord_rsc_lotes_compra_tipo' })
-        //      id = result.getValue({ name: 'custrecord_rsc_lotes_compra_transorigem' })
-        //      fornecedorLote = result.getValue({ name: 'custrecord_rsc_lotes_compra_fornecedor' })
+         searchResults.run().each(function (result) {
+             loteId = result.id
+             typeId = result.getValue({ name: 'custrecord_rsc_lotes_compra_tipo' })
+             id = result.getValue({ name: 'custrecord_rsc_lotes_compra_transorigem' })
+             fornecedorLote = result.getValue({ name: 'custrecord_rsc_lotes_compra_fornecedor' })
  
-        //      log.audit({ title: 'type', details: typeId })
-        //      log.audit({ title: 'id', details: id })
-        //      try {
-        //          if (typeId == cotationId) {
-        //              newRecord = record.create({
-        //                  type: 'customtransaction_rsc_cotacao_compras',
-        //                  isDynamic: true
-        //              })
+             log.audit({ title: 'type', details: typeId })
+             log.audit({ title: 'id', details: id })
+             try {
+                 if (typeId == cotationId) {
+                     newRecord = record.create({
+                         type: 'customtransaction_rsc_cotacao_compras',
+                         isDynamic: true
+                     })
  
-        //              fromRecord = record.load({
-        //                  type: 'purchaserequisition',
-        //                  id: id,
-        //                  isDynamic: true,
-        //              })
-        //              log.audit({ title: 'fromRecord', details: fromRecord })
-        //              _createQuotation()
-        //          } else if (typeId == 15) {
-        //              fromRecord = record.load({
-        //                  type: 'customtransaction_rsc_cotacao_compras',
-        //                  id: id,
-        //                  isDynamic: true,
-        //              })
-        //              _createPurchaseOrder()
-        //          }
-        //      } catch (error) {
-        //          log.error('erro', error)
-        //      }
+                     fromRecord = record.load({
+                         type: 'purchaserequisition',
+                         id: id,
+                         isDynamic: true,
+                     })
+                     log.audit({ title: 'fromRecord', details: fromRecord })
+                     _createQuotation()
+                 } else if (typeId == 15) {
+                     if(id == parametro){
+                        activated = true 
+                        fromRecord = record.load({
+                             type: 'customtransaction_rsc_cotacao_compras',
+                             id: id,
+                             isDynamic: true,
+                            })
+                        _createPurchaseOrder()
+                    }
+                 }
+
+             } catch (error) {
+                 log.error('erro', error)
+             }
  
-        //      return true;
-        //  });
+             return true;
+         });
+
+         if(activated == false){
+            log.audit('entrei no ulitmo if')
+            fromRecord = record.load({
+                type: 'customtransaction_rsc_cotacao_compras',
+                id: parametro,
+                isDynamic: true,
+               })
+           _createPurchaseOrder()
+         }
  
  
         //  var customrecord_rsc_lotes_compraSearchObj = search.create({
