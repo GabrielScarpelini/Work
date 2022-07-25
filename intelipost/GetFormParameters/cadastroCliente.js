@@ -2,6 +2,9 @@
     *@NApiVersion 2.1
     *@NScriptType Suitelet
     *@Author Gabriel Scarpelini GitHub: https://github.com/GabrielScarpelini
+
+    falta criar os campos no form para referenciar corretamente, mandar os id para função putData 
+
     */
 
     define(['N/render', 'N/log', 'N/file', 'N/https', 'N/ui/serverWidget','N/record', 'N/search', 'N/email', 'N/file'], function(render, log, file, https, ui, record, search, email, file){
@@ -13,7 +16,7 @@
             const parameters = request.parameters;
             const files = request.files
 
-            function putData(business, rep1, rep2, wit1, wit2, finantial){
+            function putData(business, rep1Id, rep2Id, wit1Id, wit2Id, finantial){
 
                 var cust =  record.load({
                             type: 'customer',
@@ -50,41 +53,16 @@
 
                 //setando campos de relacionamento 
 
-                //representante 1  
+                var finance = record.create({
+                    type: 'customrecord_rsc_financeiro',
+                    isDynamic: true
+                })
 
-                cust.setValue('custentity_rsc_ip_nome_rep1', rep1.nome)
-                cust.setValue('custentity_rsc_ip_emai_rep_1', rep1.email)
-                cust.setValue('custentity_rsc_ip_cpf_rep1', rep1.cpf)
-                cust.setValue('custentity_rsc_ip_rg_rep1', rep1.rg)
+                finance.setValue('custentity_rsc_ip_nome_finan', finantial.nome)
+                finance.setValue('custentity_rsc_ip_email_finan', finantial.email)
+                finance.setValue('custentity_rsc_ip_tel_finan', finantial.phone)
 
-                // representante 2
-
-                cust.setValue('custentity_rsc_ip_nome_rep2', rep2.nome)
-                cust.setValue('custentity_rsc_ip_emai_rep_2', rep2.email)
-                cust.setValue('custentity_rsc_ip_cpf_rep2', rep2.cpf)
-                cust.setValue('custentity_rsc_ip_rg_rep2', rep2.rg)
-
-                //  testemunha 1
-
-                cust.setValue('custentity_rsc_ip_nome_testemu1', wit1.nome)
-                cust.setValue('custentity_rsc_ip_email_testemu1', wit1.email)
-                cust.setValue('custentity_rsc_ip_cpf_testemu1', wit1.cpf)
-                cust.setValue('custentity_rsc_ip_rg_testemu1', wit1.rg)
-
-                // //  testemunha 2
-
-                cust.setValue('custentity_rsc_ip_nome_testemu2', wit2.nome)
-                cust.setValue('custentity_rsc_ip_email_testemu2', wit2.email)
-                cust.setValue('custentity_rsc_ip_cpf_testemu2', wit2.cpf)
-                cust.setValue('custentity_rsc_ip_rg_testemu2', wit2.rg)
-
-                // dados financeiros
-
-                cust.setValue('custentity_rsc_ip_nome_finan', finantial.nome)
-                cust.setValue('custentity_rsc_ip_email_finan', finantial.email)
-                cust.setValue('custentity_rsc_ip_tel_finan', finantial.phone)
-
-                cust.save({ignoreMandatoryFields: true})
+                var finanId = finance.save({ignoreMandatoryFields: true})
             }
 
             // fuunção para setar a cidade corretamente. 
@@ -95,6 +73,81 @@
                     colunms: 'internalId'
                 }).run().getRange(0,1)[0]
                 return cidade.id
+            }
+
+            //função responsável por criar os representantes e testemunhas
+            function putEntity(entity){
+                var type;
+                var fieldName;
+                var fieldEmail;
+                var fieldCPF;
+                var fieldRG;
+                switch(entity){
+                    case repOne:
+                        type = 'customrecordrsc_rep_legal_1'
+                        fieldName = 'custrecord_rsc_ip_nome_rep1'
+                        fieldEmail = 'custrecord_rsc_ip_emai_rep_1'
+                        fieldCPF = 'custrecord_rsc_ip_cpf_rep1'
+                        fieldRG = 'custrecord_rsc_ip_rg_rep1'
+                        break
+                    
+                    case repTwo:
+                        type = 'customrecord_rep_legal_2'
+                        fieldName = 'custrecord_rsc_ip_nome_rep2'
+                        fieldEmail = 'custrecord_rsc_ip_emai_rep_2'
+                        fieldCPF = 'custrecord_rsc_ip_cpf_rep2'
+                        fieldRG = 'custrecord_rsc_ip_rg_rep2'
+                        break
+            
+                    case witnessOne:
+                        type = 'customrecord_rsc_testemunha_1'
+                        fieldName = 'custrecord_rsc_ip_nome_testemu1'
+                        fieldEmail = 'custrecord_rsc_ip_email_testemu1'
+                        fieldCPF = 'custrecord_rsc_ip_cpf_testemu1'
+                        fieldRG = 'custrecord_rsc_ip_rg_testemu1'
+                        break
+                    
+                    case witnessTwo:
+                        type = 'customrecord_rsc_testemunha_2'
+                        fieldName = 'custrecord_rsc_ip_nome_testemu2' 
+                        fieldEmail ='custrecord_rsc_ip_email_testemu2'
+                        fieldCPF = 'custrecord_rsc_ip_cpf_testemu2'
+                        fieldRG = 'custrecord_rsc_ip_rg_testemu2'
+                        break
+                }
+
+                var srcentity =search.create({
+                    type: type,
+                    filters: [
+                        [fieldName, 'IS', entity.nome],
+                                    'AND',
+                        [fieldEmail, 'IS', entity.email],
+                                    'AND',
+                        [fieldCPF, 'IS', entity.cpf],
+                                    'AND',
+                        [fieldRG, 'IS', entity.rg]
+
+                    ],
+                    columns: 'internalid'
+                }).run().getRange(0,1)[0]
+
+                if(srcentity){
+                    return srcentity.id
+                }else{
+
+                    var ent = record.create({
+                        type: type,
+                        isDynamic: true
+                    })
+                    ent.setValue(fieldName, entity.nome)
+                    ent.setValue(fieldEmail, entity.email)
+                    ent.setValue(fieldCPF, entity.cpf)
+                    ent.setValue(fieldRG, entity.rg)
+                    
+                    var entityId = ent.save({ignoreMandatoryFields: true})
+                    return entityId
+                }
+
             }
 
 
@@ -245,8 +298,18 @@
                         //log.debug('valor id ctt', cttId)
                     }
 
+                    var rp1 = putEntity(repOne)
+                    var rp2 = putEntity(repTwo)
+                    var ts1 = putEntity(witnessOne)
+                    var ts2 = putEntity(witnessTwo)
+
+                    log.audit('rp1', rp1)
+                    log.audit('rp2', rp2)
+                    log.audit('ts1', ts1)
+                    log.audit('ts2', ts2)
+
                     //setando os valores para os campos do cliente, lead, prospects
-                    putData(objLoja, repOne, repTwo, witnessOne, witnessTwo, dadosFinanceiros)
+                    putData(objLoja, rp1, rp2, ts1, ts2, dadosFinanceiros)
 
 
                     // pegando o template para enviar o email

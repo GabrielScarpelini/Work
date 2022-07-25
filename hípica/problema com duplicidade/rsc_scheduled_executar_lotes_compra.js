@@ -22,6 +22,30 @@ const opcoes = {
     ignoreMandatoryFields: true    
 }
 
+function atualizarTransacao(tipo, idInterno, valores) {
+    log.audit('atualizarTransacao', {tipo: tipo, idInterno: idInterno, valores: valores});
+    
+    record.submitFields({type: tipo,
+        id: idInterno,
+        values: valores,
+        options: opcoes            
+    });
+}
+
+function REQUISICAO(idReq, valores) {
+    log.audit('REQUISICAO', {idReq: idReq, valores: valores});
+
+    const lookupRC = search.lookupFields({type: 'purchaserequisition',
+        id: idReq,
+        columns: ['custbody_rsc_requisicao_cotacao_criada','approvalstatus','status']
+    });
+    log.audit('lookupRC', lookupRC);
+
+    if (lookupRC.status[0].value == 'pendingOrder' || lookupRC.approvalstatus[0].value != 2 || !lookupRC.custbody_rsc_requisicao_cotacao_criada[0]) {
+        atualizarTransacao('purchaserequisition', idReq, valores);
+    }
+}
+
 function LC (dados) {
     log.audit('LC', dados);
     
@@ -82,41 +106,10 @@ function _createQuotation() {
 
         log.audit({ title: 'value', details: valuesToSet })
 
-
-        log.audit('subsidiary', valuesToSet.subsidiary);
-        newRecord.setValue({fieldId: 'subsidiary', value: valuesToSet.subsidiary});
-
-        log.audit('custbody_rsc_solicitante', valuesToSet.custbody_rsc_solicitante);
-        newRecord.setValue({fieldId: 'custbody_rsc_solicitante', value: valuesToSet.custbody_rsc_solicitante});
-
-        log.audit('custbody_rsc_cotacao_origem', fromRecord.id);
-        newRecord.setValue({fieldId: 'custbody_rsc_cotacao_origem', value: fromRecord.id});
-
-        log.audit('trandate', valuesToSet.trandate);
-        newRecord.setValue({fieldId: 'trandate', value: valuesToSet.trandate});
-
-        log.audit('memo', valuesToSet.memo);
-        newRecord.setValue({fieldId: 'memo', value: valuesToSet.memo});
-
-        log.audit('location', valuesToSet.location);
-        newRecord.setValue({fieldId: 'location', value: valuesToSet.location});
-
-        log.audit('class', valuesToSet.class);
-        newRecord.setValue({fieldId: 'class', value: valuesToSet.class});
-
-        log.audit('custbody_rsc_cotacao_data_inicio', valuesToSet.custbody_rsc_cotacao_data_inicio);
-        newRecord.setValue({fieldId: 'custbody_rsc_cotacao_data_inicio', value: valuesToSet.custbody_rsc_cotacao_data_inicio});
-
-        log.audit('custbody_rsc_cotacao_data_termino', valuesToSet.custbody_rsc_cotacao_data_termino);
-        newRecord.setValue({fieldId: 'custbody_rsc_cotacao_data_termino', value: valuesToSet.custbody_rsc_cotacao_data_termino});
-        
-        log.audit('custbody3', valuesToSet.custbody3);
-        newRecord.setValue({fieldId: 'custbody3', value: valuesToSet.custbody3});
-
-        // Object.keys(valuesToSet).forEach(function (field) {
-        //     log.audit(field, valuesToSet[field]);
-        //     newRecord.setValue({ fieldId: field, value: valuesToSet[field] })
-        // })
+        Object.keys(valuesToSet).forEach(function (field) {
+            // log.audit(field, valuesToSet[field]);
+            newRecord.setValue({ fieldId: field, value: valuesToSet[field] })
+        })
 
         cotacaoId = newRecord.save(opcoes)
 
@@ -383,8 +376,112 @@ function execute(context) {
     
     if(parametro.custscript_rsc_id_requisicao && parametro.custscript_rsc_id_requisicao != null) {
         newRecord = record.create({type: 'customtransaction_rsc_cotacao_compras', isDynamic: true});
-        fromRecord = record.load({type: 'purchaserequisition', id: parametro.custscript_rsc_id_requisicao, isDynamic: true});
-        _createQuotation()
+        const requisicaoCompras = record.load({type: 'purchaserequisition', id: parametro.custscript_rsc_id_requisicao, isDynamic: true});
+        
+        var item, itemName, quantity;
+        
+        objLC.filtros = [
+            ["custrecord_rsc_lotes_compra_status", "anyof", "1"],//aguardando
+            "AND", 
+            ["custrecord_rsc_lotes_compra_transorigem","anyof",cotacaoId ? cotacaoId : requisicaoCompras.id],
+            "AND", 
+            ["isinactive", "anyof", 'F']
+        ];
+            
+        try {
+            valuesToSet = {
+                subsidiary: requisicaoCompras.getValue('subsidiary'),
+                custbody_rsc_solicitante: requisicaoCompras.getValue('entity'),
+                custbody_rsc_cotacao_origem: requisicaoCompras.id,
+                trandate: requisicaoCompras.getValue('trandate'),
+                memo: requisicaoCompras.getValue('memo'),
+                location: requisicaoCompras.getValue('location'),
+                class: requisicaoCompras.getValue('class'),
+                custbody_rsc_cotacao_data_inicio: requisicaoCompras.getValue('trandate'),
+                custbody_rsc_cotacao_data_termino: requisicaoCompras.getValue('duedate'),
+                custbody3: requisicaoCompras.getValue('custbody3'),
+            }
+
+            log.audit('valuesToSet', valuesToSet);
+
+            Object.keys(valuesToSet).forEach(function (field) {
+                log.audit(field, valuesToSet[field]);
+                newRecord.setValue({ fieldId: field, value: valuesToSet[field] })
+            })
+
+            cotacaoId = newRecord.save(opcoes)
+
+            var array_cotacao_line = []
+
+            var lineCount = requisicaoCompras.getLineCount({ sublistId: 'item' })
+            for (var i = 0; i < lineCount; i++) {
+                requisicaoCompras.selectLine({ sublistId: 'item', line: i })
+
+                item = requisicaoCompras.getCurrentSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'item'
+                })
+                itemName = requisicaoCompras.getCurrentSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'description'
+                })
+                quantity = requisicaoCompras.getCurrentSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'quantity'
+                })
+
+                valuesToSetLine = {
+                    custrecord_rsc_cotacao_compras_id: cotacaoId,
+                    custrecord_rsc_cotacao_compras_item: item,
+                    custrecord_rsc_cotacao_compras_desc: itemName,
+                    custrecord_rsc_cotacao_compras_qtd: quantity
+                }
+
+                var cotacaoLine = record.create({
+                    type: 'customrecord_rsc_cotacao_compras_linhas',
+                    isDynamic: true
+                })
+
+                Object.keys(valuesToSetLine).forEach(function (field) {
+                    cotacaoLine.setValue({ fieldId: field, value: valuesToSetLine[field] })
+                })
+
+                var id_cotacao_line = cotacaoLine.save(opcoes)
+                array_cotacao_line.push(id_cotacao_line);
+            }
+            
+            log.audit('_createQuotation', {cotacaoId: cotacaoId, array_cotacao_line: array_cotacao_line});
+            
+            // Atualiza Requisição
+            requisicaoCompras.setValue('custbody_rsc_requisicao_cotacao_criada', cotacaoId)
+            .setValue('approvalstatus', 2)
+            .setValue('status', 'Requisition:Closed') 
+            .save(opcoes);
+
+            objLC.valores = {
+                'custrecord_rsc_lotes_compra_status': 2,//concluído
+                'custrecord_rsc_lotes_compra_fim': new Date(),
+                'custrecord_rsc_lotes_compra_transcriada': cotacaoId
+            }
+
+            LC(objLC); // Lotes de Compra    
+            REQUISICAO(parametro.custscript_rsc_id_requisicao, {
+                custbody_rsc_requisicao_cotacao_criada: cotacaoId, 
+                approvalstatus: 2, 
+                status: 'H' // Fechadas
+            });
+        } catch (error) {
+            log.error('Erro', error);
+
+            objLC.valores = {
+                'custrecord_rsc_lotes_compra_status': 3, //erro
+                'custrecord_rsc_lotes_compra_memo': error
+            } 
+            
+            LC(objLC); // Lotes de Compra
+        }
+
+        // _createQuotation()
     } 
     
     if (parametro.custscript_rsc_id_cotacao && parametro.custscript_rsc_id_cotacao != null) {
