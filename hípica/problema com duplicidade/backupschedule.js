@@ -1,5 +1,5 @@
 /**
- *@NApiVersion 2.1
+ *@NApiVersion 2.x
 *@NScriptType ScheduledScript
 */
 const cotationId = 107 
@@ -506,58 +506,20 @@ function execute(context) {
         for (var i = 0; i<linhaPrize; i++) {
             var select = cotacaoCompra.getSublistValue('custpage_premios','selecionar', i)
             if (select == true || select == "T"){ 
-                if(premio.length == 0){
-                    premio.push({
-                        condicao: cotacaoCompra.getSublistValue('custpage_premios','condicao', i),
-                        fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
-                        id: cotacaoCompra.getSublistValue('custpage_premios','id', i),
-                        item: cotacaoCompra.getSublistValue('custpage_premios','item', i),
-                        itemname: cotacaoCompra.getSublistValue('custpage_premios','itemname', i),
-                        memo: cotacaoCompra.getSublistValue('custpage_premios','memo', i),
-                        prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i),
-                        preco_unitario: cotacaoCompra.getSublistValue('custpage_premios','preco_unitario', i),
-                        quantidade: cotacaoCompra.getSublistValue('custpage_premios','quantidade', i),
-                        selecionar: cotacaoCompra.getSublistValue('custpage_premios','selecionar', i),
-                        taxatotal: cotacaoCompra.getSublistValue('custpage_premios','taxatotal', i),
-                        unittype: cotacaoCompra.getSublistValue('custpage_premios','unittype', i),
-                        forneceList: []
-
-                    });
-                }else{
-                    var localiza = premio.find(element => element.fornecedor === cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i))
-                    if (localiza){
-                        premio[i].forneceList.push({
-                            condicao: cotacaoCompra.getSublistValue('custpage_premios','condicao', i),
-                            fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
-                            id: cotacaoCompra.getSublistValue('custpage_premios','id', i),
-                            item: cotacaoCompra.getSublistValue('custpage_premios','item', i),
-                            itemname: cotacaoCompra.getSublistValue('custpage_premios','itemname', i),
-                            memo: cotacaoCompra.getSublistValue('custpage_premios','memo', i),
-                            prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i),
-                            preco_unitario: cotacaoCompra.getSublistValue('custpage_premios','preco_unitario', i),
-                            quantidade: cotacaoCompra.getSublistValue('custpage_premios','quantidade', i),
-                            selecionar: cotacaoCompra.getSublistValue('custpage_premios','selecionar', i),
-                            taxatotal: cotacaoCompra.getSublistValue('custpage_premios','taxatotal', i),
-                            unittype: cotacaoCompra.getSublistValue('custpage_premios','unittype', i),
-                        })
-                    }else{
-                        premio.push({
-                            condicao: cotacaoCompra.getSublistValue('custpage_premios','condicao', i),
-                            fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
-                            id: cotacaoCompra.getSublistValue('custpage_premios','id', i),
-                            item: cotacaoCompra.getSublistValue('custpage_premios','item', i),
-                            itemname: cotacaoCompra.getSublistValue('custpage_premios','itemname', i),
-                            memo: cotacaoCompra.getSublistValue('custpage_premios','memo', i),
-                            prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i),
-                            preco_unitario: cotacaoCompra.getSublistValue('custpage_premios','preco_unitario', i),
-                            quantidade: cotacaoCompra.getSublistValue('custpage_premios','quantidade', i),
-                            selecionar: cotacaoCompra.getSublistValue('custpage_premios','selecionar', i),
-                            taxatotal: cotacaoCompra.getSublistValue('custpage_premios','taxatotal', i),
-                            unittype: cotacaoCompra.getSublistValue('custpage_premios','unittype', i),
-                            forneceList: []
-                        });
-                    }
-                }
+                premio.push({
+                    condicao: cotacaoCompra.getSublistValue('custpage_premios','condicao', i),
+                    fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
+                    id: cotacaoCompra.getSublistValue('custpage_premios','id', i),
+                    item: cotacaoCompra.getSublistValue('custpage_premios','item', i),
+                    itemname: cotacaoCompra.getSublistValue('custpage_premios','itemname', i),
+                    memo: cotacaoCompra.getSublistValue('custpage_premios','memo', i),
+                    prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i),
+                    preco_unitario: cotacaoCompra.getSublistValue('custpage_premios','preco_unitario', i),
+                    quantidade: cotacaoCompra.getSublistValue('custpage_premios','quantidade', i),
+                    selecionar: cotacaoCompra.getSublistValue('custpage_premios','selecionar', i),
+                    taxatotal: cotacaoCompra.getSublistValue('custpage_premios','taxatotal', i),
+                    unittype: cotacaoCompra.getSublistValue('custpage_premios','unittype', i)
+                });
             }
         }
     
@@ -589,47 +551,33 @@ function execute(context) {
         log.audit('respCota', respCota);
         log.audit('vendor', vendor);
     
+        var newRecord = record.create({
+            type: 'purchaseorder',
+            isDynamic: true
+        });
+    
+        newRecord.setValue('entity', premio[0].fornecedor),
+        newRecord.setValue('employee', cotacaoCompra.getValue('custbody_rsc_solicitante')),
+        newRecord.setValue('custbody3', cotacaoCompra.getValue('custbody3')),
+        newRecord.setValue('memo', cotacaoCompra.getValue('memo')),
+        newRecord.setValue('subsidiary', cotacaoCompra.getValue('subsidiary')),
+        newRecord.setValue('location', cotacaoCompra.getValue('location')),
+        newRecord.setValue('class', cotacaoCompra.getValue('class')),
+        newRecord.setValue('duedate', cotacaoCompra.getValue('custbody_rsc_cotacao_data_termino')),
+        newRecord.setValue('terms', premio[0].condicao)
+        newRecord.setValue('custbody_rsc_cotacao_compras_id', cotacaoCompra.id)
         
-        for(var i = 0; i<premio.length; i++){
-            
-            var newRecord = record.create({
-                type: 'purchaseorder',
-                isDynamic: true
-            });
-        
-            newRecord.setValue('entity', premio[i].fornecedor),
-            newRecord.setValue('employee', cotacaoCompra.getValue('custbody_rsc_solicitante')),
-            newRecord.setValue('custbody3', cotacaoCompra.getValue('custbody3')),
-            newRecord.setValue('memo', cotacaoCompra.getValue('memo')),
-            newRecord.setValue('subsidiary', cotacaoCompra.getValue('subsidiary')),
-            newRecord.setValue('location', cotacaoCompra.getValue('location')),
-            newRecord.setValue('class', cotacaoCompra.getValue('class')),
-            newRecord.setValue('duedate', cotacaoCompra.getValue('custbody_rsc_cotacao_data_termino')),
-            newRecord.setValue('terms', premio[i].condicao)
-            newRecord.setValue('custbody_rsc_cotacao_compras_id', cotacaoCompra.id)
-            
-            if (premio[i].forneceList.length == 0) {
-                newRecord.selectNewLine('item')
-                .setCurrentSublistValue('item', 'item', premio[i].item)
-                .setCurrentSublistValue('item', 'quantity', premio[i].quantidade)
-                .setCurrentSublistValue('item', 'rate', premio[i].preco_unitario)
-                .setCurrentSublistValue('item', 'expectedreceiptdate', premio[i].prazo)
-                .commitLine('item');
-            }else{
-                for(var j = 0; j < premio[i].forneceList.length; j++){
-                    newRecord.selectNewLine('item')
-                    .setCurrentSublistValue('item', 'item', premio[i].forneceList[j].item)
-                    .setCurrentSublistValue('item', 'quantity', premio[i].forneceList[j].quantidade)
-                    .setCurrentSublistValue('item', 'rate', premio[i].forneceList[j].preco_unitario)
-                    .setCurrentSublistValue('item', 'expectedreceiptdate', premio[i].forneceList[j].prazo)
-                    .commitLine('item');
-                }
-            }
-        
-            var id_ordem_compra = newRecord.save({ignoreMandatoryFields: true});
-            log.audit('id_ordem_compra', id_ordem_compra);
+        for (var i = 0; i<premio.length; i++) {
+            newRecord.selectNewLine('item')
+            .setCurrentSublistValue('item', 'item', premio[i].item)
+            .setCurrentSublistValue('item', 'quantity', premio[i].quantidade)
+            .setCurrentSublistValue('item', 'rate', premio[i].preco_unitario)
+            .setCurrentSublistValue('item', 'expectedreceiptdate', premio[i].prazo)
+            .commitLine('item');
         }
-        
+    
+        var id_ordem_compra = newRecord.save({ignoreMandatoryFields: true});
+        log.audit('id_ordem_compra', id_ordem_compra);
 
         objLC.filtros = [
             ["custrecord_rsc_lotes_compra_transorigem","anyof", parametro.custscript_rsc_id_cotacao]
