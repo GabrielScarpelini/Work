@@ -10,7 +10,7 @@
     function finalizar_cobranca(){
         var page = currentRecord.get()
         console.log('valor do page', page)
-        var taxLines = page.getLineCount({ sublistId: 'item' })
+        var taxLines = page.getLineCount({ sublistId: 'taxdetails' })
         console.log('valor do taxlines', taxLines)
     }
 
