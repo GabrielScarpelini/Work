@@ -1,0 +1,9 @@
+horas do dia 
+
+8:30 8:45 DAILY 
+
+8:45 12 invest: desenvolvimento da parte de criação da nova cobrança
+	  parametrizando os dados para mapear corretamente na criação
+13 17:30: invest: teste da criação e estudos para solucionar o problema 
+ 	  de que o taxcoda e taxtype não estão sendo aceitos pelo novo
+	  registro. 	

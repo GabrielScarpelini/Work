@@ -5,43 +5,71 @@
 define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecord, log, search, record) {
 
     function pageInit(ctx) {
+        var page = ctx.currentRecord
+        console.log(page)
+        var status = page.getValue('approvalstatus')
+        console.log('valor do status >>>>>>>>>>>><<<<<<<<<<<<<', status)
     }
 
     function finalizar_cobranca(){
-        function criaCobrança(forn, conta, page, imposto){
+        var imposto;
+        var contaTax;
+        var fornecedor;
+        function changeTax(Tax){
+            switch(Tax){
+                case 17: // IR
+                contaTax = 347  // conta 514 
+                fornecedor = 82873   // imposto federal
+                break
+                case 14: //INSS
+                    contaTax = 334  //conta 184   
+                    fornecedor = 82873   // imposto federal
+                    break
+                case 13: //INSS
+                    contaTax =  342 //conta 184   
+                    fornecedor = 82873   // imposto federal
+                    break
+                case 3: //ISS
+                    contaTax =  342 //conta 173 
+                    fornecedor = 82872 // Orgão Municipal (Impostos)
+                    break
+            }
+            return fornecedor, contaTax
+        }
+        
+        function criaCobrança(forn, registro, impostoValue, contaImposto){
             var bill = record.create({
                 type: 'vendorbill',
                 isDynamic: true,
-                defaultValues: {
-                    entity: forn,
-                    account: conta
-                }
             })
-            bill.setValue('tranid', page.getValue('tranid'))
-            .setValue('trandate', page.getValue('trandate'))
-            .setValue('duedate', page.getValue('duedate'))
-            .setValue('memo', page.getValue('memo'))
-            .setValue('class', page.getValue('class'))
-            .setValue('subsidiary', page.getValue('subsidiary'))
-
-            bill.selectNewLine('taxdetails')
-            Object.keys(imposto).forEach(function(bodyField) {
-                bill.setSublistValue({
-                    sublistId:'taxdetails',
-                    fieldId: bodyField,
-                    value: imposto[bodyField]
-                })
-            })
+            bill.setValue('nexus', 2)
+            bill.setValue('entity', forn)
+            bill.setValue('account',1133)
+            bill.setValue('tranid', registro.getValue('tranid'))
+            .setValue('trandate', registro.getValue('trandate'))
+            .setValue('duedate', registro.getValue('duedate'))
+            .setValue('memo', registro.getValue('memo'))
+            .setValue('class', registro.getValue('class'))
+            .setValue('subsidiary', registro.getValue('subsidiary'))
+            
+            bill.selectNewLine('expense')
+            .setCurrentSublistValue({sublistId: 'expense', fieldId: 'account',value: contaImposto})
+            .setCurrentSublistValue({sublistId: 'expense', fieldId: 'amount',value: impostoValue})
+            .commitLine('expense')
             
 
+            return bill.save({ignoreMandatoryFields: true, enableSourcing: true})
         }
-        
         var id = []
         var page = currentRecord.get()
+        console.log(JSON.stringify(page))
         var recordId = Number(page.id)
-        console.log('recordId', recordId)
+        var registroClone = record.load({
+            type: 'vendorbill',
+            id: recordId,
+        })
         var listaTax = []
-        var busca = search.create({     
+        search.create({     
             type: "transaction",
             filters:
             [
@@ -80,10 +108,10 @@ define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecor
                 "netamount": pedido.getCurrentSublistValue('taxdetails','netamount'),
                 "taxamount": pedido.getCurrentSublistValue('taxdetails','taxamount'),
                 "taxbasis": pedido.getCurrentSublistValue('taxdetails','taxbasis'),
-                "taxcode": pedido.getCurrentSublistValue('taxdetails','taxcode'),
+                "taxcode": Number(pedido.getCurrentSublistValue('taxdetails','taxcode')),
                 "taxdetailsreference": pedido.getCurrentSublistValue('taxdetails','taxdetailsreference'),
                 "taxrate": pedido.getCurrentSublistValue('taxdetails','taxrate'),
-                "taxtype": pedido.getCurrentSublistValue('taxdetails','taxtype')
+                "taxtype": Number(pedido.getCurrentSublistValue('taxdetails','taxtype'))
             }
             listaTax.push(objTax)
         }
@@ -99,17 +127,65 @@ define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecor
             
             //console.log('valor da lista', listaTax)
             var iss_inss_ir = []
+            var detalhes = {
+                sucesso: [],
+                erro:[]
+            }
             for (i=0; i<listaTax.length; i++){
-                if(listaTax[i].taxamount > 0 && listaTax[i].taxtype == '17'||listaTax[i].taxtype == '3'||listaTax[i].taxtype == '14'||listaTax[i].taxtype == '13'){
-                    iss_inss_ir.push(listaTax[i])
+                try{
+                    if(listaTax[i].taxamount > 0 && listaTax[i].taxtype == '17'){
+                        iss_inss_ir.push(listaTax[i])
+                        imposto = Number(listaTax[i].taxtype)
+                        valorTax = Number(listaTax[i].taxamount)
+                        changeTax(imposto)
+                        detalhes.sucesso.push(criaCobrança(fornecedor, registroClone, valorTax, contaTax))
+                    }else if (listaTax[i].taxamount > 0 && listaTax[i].taxtype == '3'){
+                        iss_inss_ir.push(listaTax[i])
+                        imposto = Number(listaTax[i].taxtype)
+                        valorTax = Number(listaTax[i].taxamount)
+                        changeTax(imposto)
+                        detalhes.sucesso.push(criaCobrança(fornecedor, registroClone, valorTax, contaTax))
+                    }else if(listaTax[i].taxamount > 0 && listaTax[i].taxtype == '14'|| listaTax[i].taxtype == '13'){
+                        iss_inss_ir.push(listaTax[i])
+                        imposto = Number(listaTax[i].taxtype)
+                        valorTax = Number(listaTax[i].taxamount)
+                        changeTax(imposto)
+                        detalhes.sucesso.push(criaCobrança(fornecedor, registroClone, valorTax, contaTax))
+                    }
+                }catch(e){
+                    log.error('error', e)
+                    detalhes.erro.push(e)
                 }
             }
+            console.log(detalhes)
+            for(i = 0; i<detalhes.sucesso.length; i++){
+                record.submitFields({
+                    type: 'vendorbill',
+                    id: detalhes.sucesso[i],
+                    values: {
+                        'approvalstatus' : 2 // em aberto
+                    },
+                    options: {
+                        ignoreMandatoryFields: true
+                    }
+                })
+            }
+            record.submitFields({
+                type: 'vendorbill',
+                id: recordId,
+                values: {
+                    'approvalstatus' : 2 //em aberto
+                },
+                options: {
+                    ignoreMandatoryFields: true
+                }
+            })
             if(iss_inss_ir.length == 0){
                 record.submitFields({
                     type: 'vendorbill',
                     id: recordId,
                     values: {
-                        'status' : 2
+                        'approvalstatus' : 2 //em aberto
                     },
                     options: {
                         ignoreMandatoryFields: true
@@ -122,14 +198,15 @@ define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecor
                 type: 'vendorbill',
                 id: recordId,
                 values: {
-                    'status' : 2
+                    'approvalstatus' : 2 //em aberto
                 },
                 option: {
                     ignoreMandatoryFields: true
                 }
             })
         }
-       
+       console.log('terminei')
+       window.reload()
     }
 
     return {
