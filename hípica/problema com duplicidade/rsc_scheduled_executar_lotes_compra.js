@@ -14,7 +14,7 @@ valuesToSetLine,
 loteId,
 fornecedorLote
 
-define(['N/search', 'N/record', 'N/task', 'N/log', 'N/runtime'], function (search, record, task, log, runtime) {
+define(['N/search', 'N/record', 'N/task', 'N/log', 'N/runtime', 'N/query'], function (search, record, task, log, runtime, query) {
 var objLC = {};
 
 const opcoes = {
@@ -73,6 +73,47 @@ function LC (dados) {
             values: dados.valores,
             options: opcoes
         });
+    }
+}
+
+function LCF(array, idCot, idReq){
+    log.audit('LCF', {array: array, idCot: idCot, idReq: idReq});
+    // log.audit('LCF', {array: array, params: params});
+
+    var sql = "SELECT id, custrecord_rsc_lotes_compra_fim, custrecord_rsc_lotes_compra_fornecedor, custrecord_rsc_lotes_compra_inicio, custrecord_rsc_lotes_compra_memo, custrecord_rsc_lotes_compra_status, "+
+    "custrecord_rsc_lotes_compra_tipo, custrecord_rsc_lotes_compra_transcriada, custrecord_rsc_lotes_compra_transorigem "+
+    "FROM customrecord_rsc_lotes_compra "+
+    "WHERE custrecord_rsc_lotes_compra_transorigem = ? "+
+    "OR custrecord_rsc_lotes_compra_transorigem = ? ";
+
+    var consulta = query.runSuiteQL({
+        query: sql,
+        params: [idCot,idReq]
+    });
+
+    var sqlResults = consulta.asMappedResults();
+    log.audit('sqlResults', sqlResults);
+    
+    if (sqlResults.length > 0) {
+        for (i=0; i<sqlResults.length; i++) {
+            var fornecedor = sqlResults[i].custrecord_rsc_lotes_compra_fornecedor;
+            var lockForn = array.find(element => element.idFornecedor == fornecedor); // Compara fornecedor do pedido com o do lote de compra
+            log.audit('lockForn', lockForn);
+            if (lockForn) {
+                log.audit(i, {fornecedor: fornecedor, lockForn: lockForn, lote_compra: sqlResults[i].id, id_ordem_compra: lockForn.id_ordem_compra});
+                record.submitFields({
+                    type: 'customrecord_rsc_lotes_compra',
+                    id: String(parseInt(sqlResults[i].id)),
+                    values: {
+                        custrecord_rsc_lotes_compra_status: 2, // Processado
+                        custrecord_rsc_lotes_compra_transcriada: lockForn.id_ordem_compra,
+                        custrecord_rsc_lotes_compra_fim: new Date()
+                    },
+                    options: opcoes
+                });
+                log.audit(i, {status: 'Sucesso', array: array, idCot: idCot, idReq: idReq});
+            }
+        }
     }
 }
 
@@ -159,16 +200,6 @@ function _createQuotation() {
         .setValue('approvalstatus', 2)
         .setText('status', 'Requisition:Closed')
         .save(opcoes);
-
-        // record.submitFields({
-        //     type: 'purchaserequisition',
-        //     id: id,
-        //     values: {
-        //         'custbody_rsc_requisicao_cotacao_criada': cotacaoId,
-        //         'approvalstatus': 2,
-        //         'status': 'Requisition:Closed'                  
-        //     }
-        // })
 
         objLC.valores = {
             'custrecord_rsc_lotes_compra_status': 2,//concluído
@@ -405,7 +436,7 @@ function execute(context) {
             log.audit('valuesToSet', valuesToSet);
 
             Object.keys(valuesToSet).forEach(function (field) {
-                log.audit(field, valuesToSet[field]);
+                // log.audit(field, valuesToSet[field]);
                 newRecord.setValue({ fieldId: field, value: valuesToSet[field] })
             })
 
@@ -520,22 +551,7 @@ function execute(context) {
                     listaForn.push(objForn)
                     log.audit('1º objForn', objForn)
                     log.audit('1ª lista', listaForn)
-                    // premio.push({
-                    //     condicao: cotacaoCompra.getSublistValue('custpage_premios','condicao', i),
-                    //     fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
-                    //     id: cotacaoCompra.getSublistValue('custpage_premios','id', i),
-                    //     item: cotacaoCompra.getSublistValue('custpage_premios','item', i),
-                    //     itemname: cotacaoCompra.getSublistValue('custpage_premios','itemname', i),
-                    //     memo: cotacaoCompra.getSublistValue('custpage_premios','memo', i),
-                    //     prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i),
-                    //     preco_unitario: cotacaoCompra.getSublistValue('custpage_premios','preco_unitario', i),
-                    //     quantidade: cotacaoCompra.getSublistValue('custpage_premios','quantidade', i),
-                    //     selecionar: cotacaoCompra.getSublistValue('custpage_premios','selecionar', i),
-                    //     taxatotal: cotacaoCompra.getSublistValue('custpage_premios','taxatotal', i),
-                    //     unittype: cotacaoCompra.getSublistValue('custpage_premios','unittype', i),
-                    //     forneceList: []
 
-                    // });
                 }
                 else{
                     var LF = listaForn.find(element => element.fornecedor === cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i));
@@ -551,20 +567,6 @@ function execute(context) {
                                 prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i)
                             })
                         }
-                        // premio[i].forneceList.push({
-                        //     condicao: cotacaoCompra.getSublistValue('custpage_premios','condicao', i),
-                        //     fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
-                        //     id: cotacaoCompra.getSublistValue('custpage_premios','id', i),
-                        //     item: cotacaoCompra.getSublistValue('custpage_premios','item', i),
-                        //     itemname: cotacaoCompra.getSublistValue('custpage_premios','itemname', i),
-                        //     memo: cotacaoCompra.getSublistValue('custpage_premios','memo', i),
-                        //     prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i),
-                        //     preco_unitario: cotacaoCompra.getSublistValue('custpage_premios','preco_unitario', i),
-                        //     quantidade: cotacaoCompra.getSublistValue('custpage_premios','quantidade', i),
-                        //     selecionar: cotacaoCompra.getSublistValue('custpage_premios','selecionar', i),
-                        //     taxatotal: cotacaoCompra.getSublistValue('custpage_premios','taxatotal', i),
-                        //     unittype: cotacaoCompra.getSublistValue('custpage_premios','unittype', i)
-                        // })
                     }else{
                         var objForn = {
                             fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
@@ -577,21 +579,6 @@ function execute(context) {
                             }]
                         }
                         listaForn.push(objForn)
-                        // premio.push({
-                        //     condicao: cotacaoCompra.getSublistValue('custpage_premios','condicao', i),
-                        //     fornecedor: cotacaoCompra.getSublistValue('custpage_premios','fornecedor', i),
-                        //     id: cotacaoCompra.getSublistValue('custpage_premios','id', i),
-                        //     item: cotacaoCompra.getSublistValue('custpage_premios','item', i),
-                        //     itemname: cotacaoCompra.getSublistValue('custpage_premios','itemname', i),
-                        //     memo: cotacaoCompra.getSublistValue('custpage_premios','memo', i),
-                        //     prazo: cotacaoCompra.getSublistValue('custpage_premios','prazo', i),
-                        //     preco_unitario: cotacaoCompra.getSublistValue('custpage_premios','preco_unitario', i),
-                        //     quantidade: cotacaoCompra.getSublistValue('custpage_premios','quantidade', i),
-                        //     selecionar: cotacaoCompra.getSublistValue('custpage_premios','selecionar', i),
-                        //     taxatotal: cotacaoCompra.getSublistValue('custpage_premios','taxatotal', i),
-                        //     unittype: cotacaoCompra.getSublistValue('custpage_premios','unittype', i),
-                        //     forneceList: []
-                        // });
                     }
                 }
             }
@@ -629,8 +616,8 @@ function execute(context) {
             sucesso: [],
             erro: []
         }
-    
-        
+        var listaId = []
+
         for(var i = 0; i< listaForn.length; i++){
             
             var newRecord = record.create({
@@ -662,6 +649,10 @@ function execute(context) {
                 var id_ordem_compra = newRecord.save({ignoreMandatoryFields: true});
                 //log.audit('id_ordem_compra', id_ordem_compra);
                 relacao.sucesso.push(id_ordem_compra)
+                listaId.push({
+                    idFornecedor: listaForn[i].fornecedor,
+                    id_ordem_compra: id_ordem_compra
+                })
             }catch(e){
                 relacao.erro.push({
                     fornecedor: listaForn[i].fornecedor,
@@ -673,103 +664,18 @@ function execute(context) {
         
 
         objLC.filtros = [
-            ["custrecord_rsc_lotes_compra_transorigem","anyof", parametro.custscript_rsc_id_cotacao]
+            [["custrecord_rsc_lotes_compra_transorigem","anyof",parametro.custscript_rsc_id_cotacao],"OR",
+            ["custrecord_rsc_lotes_compra_transorigem","anyof",cotacaoCompra.getValue('custbody_rsc_cotacao_origem')]]
         ];
 
         objLC.valores = {
             custrecord_rsc_lotes_compra_transcriada: id_ordem_compra,
             custrecord_rsc_lotes_compra_status: 2
         }
-
-        LC(objLC); // Lotes de Compra
-    }   
-
-    //  searchResults.run().each(function (result) {
-    //      loteId = result.id
-    //      typeId = result.getValue({ name: 'custrecord_rsc_lotes_compra_tipo' })
-    //      id = result.getValue({ name: 'custrecord_rsc_lotes_compra_transorigem' })
-    //      fornecedorLote = result.getValue({ name: 'custrecord_rsc_lotes_compra_fornecedor' })
-
-    //      log.audit({ title: 'type', details: typeId })
-    //      log.audit({ title: 'id', details: id })
-    //      try {
-    //          if (typeId == cotationId) {
-    //              newRecord = record.create({
-    //                  type: 'customtransaction_rsc_cotacao_compras',
-    //                  isDynamic: true
-    //              })
-
-    //              fromRecord = record.load({
-    //                  type: 'purchaserequisition',
-    //                  id: id,
-    //                  isDynamic: true,
-    //              })
-    //              log.audit({ title: 'fromRecord', details: fromRecord })
-    //              _createQuotation()
-            //  } else if (typeId == 15) {
-            //      if(id == parametro){
-            //         activated = true 
-            //         fromRecord = record.load({
-            //              type: 'customtransaction_rsc_cotacao_compras',
-            //              id: id,
-            //              isDynamic: true,
-            //             })
-            //         _createPurchaseOrder()
-                // }
-            //  }
-
-    //      } catch (error) {
-    //          log.error('erro', error)
-    //      }
-
-    //      return true;
-    //  });
-
-    //  if(activated == false){
-    //     log.audit('entrei no ulitmo if')
-    //     fromRecord = record.load({
-    //         type: 'customtransaction_rsc_cotacao_compras',
-    //         id: parametro,
-    //         isDynamic: true,
-    //        })
-    //    _createPurchaseOrder()
-    //  }
-
-
-    //  var customrecord_rsc_lotes_compraSearchObj = search.create({
-    //      type: "customrecord_rsc_lotes_compra",
-    //      filters:
-    //          [
-    //              ["custrecord_rsc_lotes_compra_status", "anyof", "1"],
-    //              "AND",
-    //              ["custrecord_rsc_lotes_compra_transorigem","noneof","@NONE@"]
-    //          ],
-    //      columns:
-    //          [
-    //              search.createColumn({
-    //                  name: "internalid",
-    //                  summary: "COUNT",
-    //                  label: "ID interna"
-    //              })
-    //          ]
-    //  });
-
-    //  customrecord_rsc_lotes_compraSearchObj.run().each(function (result) {
-    //      var count = result.getValue({
-    //          name: "internalid",
-    //          summary: "COUNT"
-    //      })
-    //      if (count > 0) {
-    //          var scriptTask = task.create({
-    //              taskType: task.TaskType.SCHEDULED_SCRIPT,
-    //              scriptId: 'customscript_rsc_scheduled_executar_lote',
-    //              deploymentId: 'customdeploy_rsc_scheduled_executar_lote'
-    //          })
-    //          var scriptTaskId = scriptTask.submit()
-    //          log.error('Status', 'Novo script será executado - ' + scriptTaskId);
-    //      }
-    //      return true;
-    //  });
+        
+        LCF(listaId, parametro.custscript_rsc_id_cotacao, cotacaoCompra.getValue('custbody_rsc_cotacao_origem')); //ultima atualização do lote de compra
+        // LCF(listaId, objLC.filtros); //ultima atualização do lote de compra
+    }
 }
 
 return {
