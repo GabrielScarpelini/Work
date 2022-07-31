@@ -2,13 +2,9 @@
  *@NApiVersion 2.1
  *@NScriptType ClientScript
  */
-define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecord, log, search, record) {
+define(['N/currentRecord','N/log','N/search', 'N/record','N/ui/message'], function(currentRecord, log, search, record, message) {
 
     function pageInit(ctx) {
-        var page = ctx.currentRecord
-        console.log(page)
-        var status = page.getValue('approvalstatus')
-        console.log('valor do status >>>>>>>>>>>><<<<<<<<<<<<<', status)
     }
 
     function finalizar_cobranca(){
@@ -42,7 +38,7 @@ define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecor
                 type: 'vendorbill',
                 isDynamic: true,
             })
-            bill.setValue('nexus', 2)
+            bill.setValue('approvalstatus', 2) //em aberto
             bill.setValue('entity', forn)
             bill.setValue('account',1133)
             bill.setValue('tranid', registro.getValue('tranid'))
@@ -157,19 +153,18 @@ define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecor
                     detalhes.erro.push(e)
                 }
             }
-            console.log(detalhes)
-            for(i = 0; i<detalhes.sucesso.length; i++){
-                record.submitFields({
-                    type: 'vendorbill',
-                    id: detalhes.sucesso[i],
-                    values: {
-                        'approvalstatus' : 2 // em aberto
-                    },
-                    options: {
-                        ignoreMandatoryFields: true
-                    }
+            if(detalhes.erro.length != 0){
+                let myMsg = message.create({
+                    title: 'Erro na criação',
+                    message: detalhes.erro[0],
+                    type: message.Type.ERROR
+                });
+                myMsg.show({
+                    duration: 5000 // will disappear after 5s
                 })
+                window.reload()
             }
+            console.log(detalhes)
             record.submitFields({
                 type: 'vendorbill',
                 id: recordId,
@@ -191,6 +186,15 @@ define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecor
                         ignoreMandatoryFields: true
                     }
                 })
+                let myMsg = message.create({
+                    title: 'Atualização de Status',
+                    message: 'Status atualizdo com sucesso!',
+                    type: message.Type.INFORMARTION
+                });
+                myMsg.show({
+                    duration: 5000 // will disappear after 5s
+                })
+                window.reload()
             }
             console.log('valor da lista impostos', iss_inss_ir)
         }else{
@@ -204,7 +208,24 @@ define(['N/currentRecord','N/log','N/search', 'N/record'], function(currentRecor
                     ignoreMandatoryFields: true
                 }
             })
+            let myMsg = message.create({
+                title: 'Atualização de Status',
+                message: 'Status atualizdo com sucesso!',
+                type: message.Type.INFORMARTION
+            });
+            myMsg.show({
+                duration: 5000 // will disappear after 5s
+            })
+            window.reload()
         }
+        let myMsg = message.create({
+            title: 'Sucesso',
+            message: 'Cobranças Criadas com Sucesso!',
+            type: message.Type.CONFIRMATION
+        });
+        myMsg.show({
+            duration: 5000 // will disappear after 5s
+        })
        console.log('terminei')
        window.reload()
     }
